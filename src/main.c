@@ -17,7 +17,7 @@ void init() {
 
 void pattern_test() {
     if (frame%60 == 0) {
-        SpawnBulletCircle(12, MIDDLE_SCREEN, 90, 0, Pattern_SineWave, BALL_M_BLACK, 1);
+        SpawnBulletCircle(12, MIDDLE_SCREEN, 90, 0, Pattern_Straight, BALL_M_BLACK, 1);
     }
 }
 
