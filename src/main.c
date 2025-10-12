@@ -19,7 +19,7 @@ void init() {
 void pattern_test() {
     int data[MAX_DATA] = {20, 3, 120, 0}; //nbBullets, speed, circleFrame, generation
     if (frame%360 == 0) {
-        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 3, Pattern_SineWave, data, BALL_M_BLACK, 1,1);
+        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 3, Pattern_SpawnCircle, data, BALL_M_BLACK, 1,1);
     }
 }
 
