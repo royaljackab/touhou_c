@@ -17,8 +17,9 @@ void init() {
 }
 
 void pattern_test() {
+    int data[MAX_DATA] = {12, 3, 120, 0}; //nbBullets, speed, circleFrame, generation
     if (frame%360 == 0) {
-        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 3, Pattern_SpawnCircle, NULL, BALL_M_BLACK, 1,1);
+        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 3, Pattern_SpawnCircle, data, BALL_M_BLACK, 1,1);
     }
 }
 
@@ -38,6 +39,7 @@ int main() {
         BeginDrawing();
             ClearBackground(BLACK);
             DrawText(str, 10 ,10, 20, WHITE);
+            DrawFPS(40,40);
 
             UpdateBullets();
         EndDrawing();

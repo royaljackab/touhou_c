@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "bullet.h"
 
-void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible) {
+void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, int userData[MAX_DATA], BulletType type, int damage, int visible) {
     bullet->pos = pos;
     bullet->sprite = bulletSprites[type];
     bullet->speed = speed; 
@@ -9,7 +9,7 @@ void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BUL
     bullet->location = (Vector2){pos.x - bullet->sprite.collisionOffset.x, pos.y - bullet->sprite.collisionOffset.y};
     bullet->direction = direction;
     bullet->pattern = pattern;
-    bullet->userData = userData;
+    memcpy(bullet->userData, userData, sizeof(int)*MAX_DATA);
 
     bullet->bActive = TRUE;
     bullet->bDamage = damage;
@@ -51,7 +51,7 @@ void UpdateBullets() {
     }
 }
 
-void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible) {
+void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, int userData[MAX_DATA], BulletType type, int damage, int visible) {
     if (nbBullets >= MAX_BULLETS) return; 
 
     Bullet bullet;
@@ -59,13 +59,13 @@ void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUN
 
 }
 
-void SpawnBulletAngle(Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible) {
+void SpawnBulletAngle(Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, int userData[MAX_DATA], BulletType type, int damage, int visible) {
     Vector2 direction = {cos( PI * angle / 180.f), sin( PI * angle / 180.f)};
     SpawnBullet(pos, direction, speed, pattern, userData, type, damage, visible);
 
 }
 
-void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible) {
+void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, int userData[MAX_DATA], BulletType type, int damage, int visible) {
     for (int i=0; i<nbBullets; i++) {
         SpawnBulletAngle(pos, angle + i * 360 / nbBullets, speed, pattern, userData, type, damage, visible);
     }
