@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 #include "assets.h"
 #include "sprite.h"
 #include "bullet.h"
