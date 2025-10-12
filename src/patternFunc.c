@@ -13,7 +13,7 @@ void Pattern_SineWave(Bullet* bullet, void* userData) {
 
 void Pattern_SpawnCircle(Bullet* bullet, void* userData) {
     Pattern_Straight(bullet, userData);
-    if (bullet->timer % 500 == 0) {
-        SpawnBulletCircle(12, bullet->pos, 270, 1, Pattern_SpawnCircle, BALL_M_BLACK, 1);
+    if (bullet->timer % 100 == 0) {
+        SpawnBulletCircle(12, bullet->pos, 270, 3, Pattern_SpawnCircle, NULL, BALL_M_BLACK, 1, 1);   
     }
 }

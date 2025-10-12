@@ -1,4 +1,5 @@
 #include "include/raylib.h"
+#include <stdio.h>
 #include "globals.h"
 
 Assets assets;
@@ -17,7 +18,7 @@ void init() {
 
 void pattern_test() {
     if (frame%360 == 0) {
-        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 2, Pattern_SpawnCircle, BALL_M_BLACK, 1);
+        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 3, Pattern_SpawnCircle, NULL, BALL_M_BLACK, 1,1);
     }
 }
 
@@ -26,12 +27,17 @@ void pattern_test() {
 int main() {
     init();
 
+    char str[20];
+
     while(!WindowShouldClose()) {
 
         pattern_test();
 
+        sprintf(str, "%d", nbBullets);
+
         BeginDrawing();
             ClearBackground(BLACK);
+            DrawText(str, 10 ,10, 20, WHITE);
 
             UpdateBullets();
         EndDrawing();

@@ -7,8 +7,7 @@
 #include "assets.h"
 #include "sprite.h"
 
-
-#define MAX_BULLETS 5000
+#define MAX_BULLETS 10000
 
 typedef struct bulletTemp {
 
@@ -30,11 +29,11 @@ typedef struct bulletTemp {
 
 #include "patternFunc.h"
 
-void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage, int visible);
+void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible);
 void UpdateBullet(Bullet* bullet);
 void UpdateBullets();
-void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage);
-void SpawnBulletAngle(Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage);
-void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage);
+void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible);
+void SpawnBulletAngle(Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible);
+void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, void* userData, BulletType type, int damage, int visible);
 
 #endif
