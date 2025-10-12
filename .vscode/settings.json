@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "assets.h": "c",
+        "raylib.h": "c"
+    },
+    "cmake.sourceDirectory": "C:/Users/jacka/Bureau/Code/Projet/raylib/src/include"
+}
