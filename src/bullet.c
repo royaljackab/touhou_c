@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "bullet.h"
 
-void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage) {
+void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage, int visible) {
     bullet->pos = pos;
     bullet->sprite = bulletSprites[type];
     bullet->speed = speed; 
@@ -13,6 +13,7 @@ void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BUL
 
     bullet->bActive = TRUE;
     bullet->bDamage = damage;
+    bullet->bVisible = visible;
 
     bullet->timer = 0;
 
@@ -26,12 +27,12 @@ void UpdateBullet(Bullet* bullet) {
     bullet->location = (Vector2){bullet->pos.x - bullet->sprite.collisionOffset.x, bullet->pos.y - bullet->sprite.collisionOffset.y};
 
     //Si le bullet est à l'écran, on met à jour son animation
-    if( bullet->pos.x >=0 && bullet->pos.x <= SCREEN_WIDTH && bullet->pos.y >=0 && bullet->pos.y <= SCREEN_HEIGHT ) {
+    if ( bullet->pos.x >=0 && bullet->pos.x <= SCREEN_WIDTH && bullet->pos.y >=0 && bullet->pos.y <= SCREEN_HEIGHT && bullet->bVisible) {
         DrawTextureRec(bullet->sprite.spritesheet, bullet->sprite.frameRec, bullet->location, WHITE);
         UpdateAnimation(&bullet->sprite);
     
     //Sinon, si il est trop loin, on le désactive
-    } else if (bullet->pos.x < -200 || bullet->pos.x > SCREEN_WIDTH + 200 || bullet->pos.y < -200 || bullet->pos.y > SCREEN_HEIGHT + 200) {
+    } else if (bullet->pos.x < -200 || bullet->pos.x > SCREEN_WIDTH + 200 || bullet->pos.y < -200 || bullet->pos.y > SCREEN_HEIGHT + 200 || !bullet->bVisible) {
         bullet->bActive = FALSE;
     }
 }
@@ -50,22 +51,22 @@ void UpdateBullets() {
     }
 }
 
-void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage) {
+void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage, int visible) {
     if (nbBullets >= MAX_BULLETS) return; 
 
     Bullet bullet;
-    BulletInit(&bullet, pos, direction, speed, pattern, type, damage);
+    BulletInit(&bullet, pos, direction, speed, pattern, type, damage, visible);
 
 }
 
-void SpawnBulletAngle(Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage) {
+void SpawnBulletAngle(Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage, int visible) {
     Vector2 direction = {cos( PI * angle / 180.f), sin( PI * angle / 180.f)};
-    SpawnBullet(pos, direction, speed, pattern, type, damage);
+    SpawnBullet(pos, direction, speed, pattern, type, damage, visible);
 
 }
 
-void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage) {
+void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, BulletType type, int damage, int visible) {
     for (int i=0; i<nbBullets; i++) {
-        SpawnBulletAngle(pos, angle + i * 360 / nbBullets, speed, pattern, type, damage);
+        SpawnBulletAngle(pos, angle + i * 360 / nbBullets, speed, pattern, type, damage, visible);
     }
 }

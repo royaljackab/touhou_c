@@ -7,9 +7,13 @@ void Pattern_Straight(Bullet* bullet, void* userData) {
 }
 
 void Pattern_SineWave(Bullet* bullet, void* userData) {
-    float amplitude = 50.0f; // Amplitude of the sine wave
-    float frequency = 0.1f;  // Frequency of the sine wave
+    bullet->pos.x = 500 * sin(bullet->timer * 1.f / 60) + MIDDLE_SCREEN.x;
+    bullet->pos.y = 600 * cos(bullet->timer * 1.f / 60) + MIDDLE_SCREEN.y;
+}
 
-    bullet->pos.x = sin(2 * 1.f * bullet->timer/60 ) + 3 * sin(1.f * bullet->timer/60);
-    bullet->pos.y = 2 * sin(3 * 1.f * bullet->timer/60 );
+void Pattern_SpawnCircle(Bullet* bullet, void* userData) {
+    Pattern_Straight(bullet, userData);
+    if (bullet->timer % 500 == 0) {
+        SpawnBulletCircle(12, bullet->pos, 270, 1, Pattern_SpawnCircle, BALL_M_BLACK, 1);
+    }
 }

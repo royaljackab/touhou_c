@@ -16,8 +16,8 @@ void init() {
 }
 
 void pattern_test() {
-    if (frame%60 == 0) {
-        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 0, Pattern_SineWave, BALL_M_BLACK, 1);
+    if (frame%360 == 0) {
+        SpawnBulletCircle(12, MIDDLE_SCREEN, 270, 2, Pattern_SpawnCircle, BALL_M_BLACK, 1);
     }
 }
 
@@ -32,6 +32,7 @@ int main() {
 
         BeginDrawing();
             ClearBackground(BLACK);
+
             UpdateBullets();
         EndDrawing();
 
