@@ -22,6 +22,7 @@
 
 #define VECTOR_NULL (Vector2){0,0}
 #define MIDDLE_SCREEN (Vector2){SCREEN_WIDTH/2, SCREEN_HEIGHT/2}
+#define MIDDLE_BOSS (Vector2){SCREEN_WIDTH/2, 200}
 
 extern Assets assets;
 extern Sprite bulletSprites[MAX_SPRITES];

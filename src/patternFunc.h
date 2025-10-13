@@ -8,7 +8,8 @@ typedef enum {
     NB_BULLETS,
     SPEED,
     CIRCLE_FRAME,
-    GENERATION
+    GENERATION,
+    GEN_MAX
 } SpawnCircleData;
 
 void Pattern_Straight(Bullet* bullet, int userData[MAX_DATA]);

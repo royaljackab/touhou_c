@@ -14,10 +14,11 @@ void Pattern_SineWave(Bullet* bullet, int userData[MAX_DATA]) {
 void Pattern_SpawnCircle(Bullet* bullet, int userData[MAX_DATA]) {
     // userData : [nbBullets, speed, circleFrame, generation]
     Pattern_Straight(bullet, userData);
-    int newData[MAX_DATA] = {userData[NB_BULLETS], userData[SPEED], userData[CIRCLE_FRAME], userData[GENERATION] + 1};
+    int newData[MAX_DATA] = {userData[NB_BULLETS], userData[SPEED] + 1, userData[CIRCLE_FRAME], userData[GENERATION] + 1, userData[GEN_MAX]};
 
     //SpawnCircleData newData = {data->nbBullets, data->speed, data->circleFrame, data->generation + 1};
-    if (bullet->timer == userData[CIRCLE_FRAME] && userData[GENERATION] < 2) {
-        SpawnBulletCircle(userData[NB_BULLETS], bullet->pos, 270, userData[SPEED], Pattern_SpawnCircle, newData, BALL_M_BLACK, 1, 1);   
+    if (bullet->timer == userData[CIRCLE_FRAME] && userData[GENERATION] < userData[GEN_MAX]) {
+        SpawnBulletCircle(userData[NB_BULLETS], bullet->pos, 270, userData[SPEED] + 1, Pattern_SpawnCircle, newData, BALL_M_BLACK, 1, 1);   
+        bullet->bActive = FALSE; //Detruit le bullet parent
     }
 }
