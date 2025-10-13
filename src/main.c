@@ -17,7 +17,7 @@ void init() {
 }
 
 void pattern_test_circleSpawn() {
-    int data[MAX_DATA] = {10, 3, 60, 0, 2}; //nbBullets, speed, circleFrame, generation, genMax
+    int data[MAX_DATA] = {10, 2, 60, 0, 2}; //nbBullets, speed, circleFrame, generation, genMax
     if (frame%360 == 0) {
         SpawnBulletCircle(12, MIDDLE_BOSS, 270, 2, Pattern_SpawnCircle, data, BALL_M_BLACK, 1,1);
     }
