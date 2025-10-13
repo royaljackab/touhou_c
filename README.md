@@ -1,2 +1,1 @@
-gn
-je vais push ce changement
+je me fuite memoire le pointeur vers entier
