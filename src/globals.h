@@ -6,10 +6,12 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include "include/raymath.h"
 #include "assets.h"
 #include "sprite.h"
 #include "bullet.h"
 #include "patternFunc.h"
+#include "player.h"
 
 #define PANEL_WIDTH 500
 #define SCREEN_WIDTH 1920
@@ -23,6 +25,9 @@
 #define VECTOR_NULL (Vector2){0,0}
 #define MIDDLE_SCREEN (Vector2){SCREEN_WIDTH/2, SCREEN_HEIGHT/2}
 #define MIDDLE_BOSS (Vector2){SCREEN_WIDTH/2, 200}
+
+#define MoveWithinGameX(pos) Clamp(pos, PANEL_WIDTH, SCREEN_WIDTH - PANEL_WIDTH)
+#define MoveWithinGameY(pos) Clamp(pos, 0, SCREEN_HEIGHT)
 
 extern Assets assets;
 extern Sprite bulletSprites[MAX_SPRITES];

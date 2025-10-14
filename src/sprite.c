@@ -28,6 +28,9 @@ void LoadBulletSprites() {
 
     SpriteInit(&sprite, "anim_test", 16, 60, (Vector2){16,16}, 8);
     bulletSprites[ANIM_TEST] =sprite;
+
+    SpriteInit(&sprite, "reimu_still", 8, 30, (Vector2){16,48}, 16);
+    bulletSprites[REIMU_STILL] =sprite;
 }
 
 void UpdateAnimation(Sprite* sprite) {
