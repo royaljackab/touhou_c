@@ -18,6 +18,7 @@ void LoadAllAssets()
     TextureEntry* entry;
     LOAD_TEXTURE("ball_m_black", "../Assets/Sprites/ball_m_black.png");
     LOAD_TEXTURE("anim_test", "../Assets/Sprites/anim_test.png");
+    LOAD_TEXTURE("reimu_still", "../Assets/Sprites/reimu_still.png");
     #undef LOAD_TEXTURE
 
     //IMAGES

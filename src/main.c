@@ -8,12 +8,16 @@ Bullet bullets[MAX_BULLETS];
 int nbBullets = 0;
 int frame=0;
 
+Player player;
+
 void init() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Touhou");
     SetTargetFPS(60);
 
     LoadAllAssets();
     LoadBulletSprites();
+
+    PlayerInit(&player, (Vector2){SCREEN_WIDTH/2, SCREEN_HEIGHT - 100}, 8, 4, 5, bulletSprites[REIMU_STILL]);
 }
 
 void pattern_test_circleSpawn() {
@@ -42,6 +46,7 @@ int main() {
             DrawFPS(40,40);
 
             UpdateBullets();
+            UpdatePlayer(&player);
         EndDrawing();
 
         frame++;
