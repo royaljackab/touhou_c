@@ -32,7 +32,10 @@ typedef struct {
 typedef enum {
     BALL_M_BLACK,
     ANIM_TEST,
-    REIMU_STILL
+    REIMU_STILL,
+    REIMU_LEFT,
+    REIMU_RIGHT
+
 } BulletType;
 
 void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius);

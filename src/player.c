@@ -39,6 +39,18 @@ void UpdatePlayer(Player *p){
     p->pos.y = MoveWithinGameY(p->pos.y + speed);
   }
 
+  if(IsKeyPressed(KEY_RIGHT)){
+
+    p->sprite = bulletSprites[REIMU_RIGHT];
+  }
+  else if(IsKeyPressed(KEY_LEFT)){
+    p->sprite = bulletSprites[REIMU_LEFT];
+  }
+  if( (IsKeyReleased(KEY_RIGHT) && IsKeyUp(KEY_LEFT)) || (IsKeyReleased(KEY_LEFT) && IsKeyUp(KEY_RIGHT)) 
+  || (IsKeyDown(KEY_RIGHT) && IsKeyDown(KEY_LEFT))){  
+    p->sprite = bulletSprites[REIMU_STILL];
+  }
+
   //Met à jour l'animation du joueur
   DrawTextureRec(p->sprite.spritesheet, p->sprite.frameRec, p->location, WHITE);
   UpdateAnimation(&p->sprite);

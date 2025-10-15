@@ -31,6 +31,12 @@ void LoadBulletSprites() {
 
     SpriteInit(&sprite, "reimu_still", 8, 30, (Vector2){16,48}, 16);
     bulletSprites[REIMU_STILL] =sprite;
+
+    SpriteInit(&sprite, "reimu_left", 8, 30, (Vector2){16,48}, 16);
+    bulletSprites[REIMU_LEFT] = sprite;
+
+    SpriteInit(&sprite, "reimu_right", 8, 30, (Vector2){16,48}, 16);
+    bulletSprites[REIMU_RIGHT] = sprite;
 }
 
 void UpdateAnimation(Sprite* sprite) {
