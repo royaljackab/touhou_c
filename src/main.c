@@ -45,8 +45,9 @@ int main() {
             DrawText(str, 10 ,10, 20, WHITE);
             DrawFPS(40,40);
 
-            UpdateBullets();
+            
             UpdatePlayer(&player);
+            UpdateBullets();
         EndDrawing();
 
         frame++;

@@ -7,7 +7,7 @@
 #include "sprite.h"
 #include "globals.h"
 
-#define INVINSIBILITY_DURATION 10
+#define INVINSIBILITY_DURATION 100
 
 typedef struct {
   Vector2 location; //Corner Up-Left for drawing
@@ -24,6 +24,7 @@ typedef struct {
 
 void PlayerInit(Player *p, Vector2 pos, float speed, float focusSpeed, int hp, Sprite sprite);
 void UpdatePlayer(Player *p);
-//int damagePlayer(Player *p, int damage); 
+int playerIsColliding(Player *p);
+int damagePlayer(Player *p, int damage); 
 
 #endif
