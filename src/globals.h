@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include "include/raylib.h"
 #include "include/raymath.h"
 #include "assets.h"
 #include "sprite.h"

@@ -1,6 +1,5 @@
 #include "assets.h"
 #include "globals.h"
-#include <string.h>
 
 #define LOAD_ENTRY(TYPE, FIELD, COUNTER, LOADFN)                    \
     entry = &assets.FIELD##s[assets.COUNTER++];        \

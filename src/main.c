@@ -1,5 +1,3 @@
-#include "include/raylib.h"
-#include <stdio.h>
 #include "globals.h"
 
 Assets assets;
