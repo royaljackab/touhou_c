@@ -20,3 +20,6 @@ build:
 
 run: all
 	./build/$(TARGET)
+
+clean:
+	rm -f build/*.o build/jeu.exe
