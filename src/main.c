@@ -15,6 +15,7 @@ void init() {
     LoadAllAssets();
     LoadBulletSprites();
 
+    //Player, pos, speed, focusSpeed, HP, Sprite
     PlayerInit(&player, (Vector2){SCREEN_WIDTH/2, SCREEN_HEIGHT - 100}, 8, 4, 5, bulletSprites[REIMU_STILL]);
 }
 

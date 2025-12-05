@@ -34,12 +34,15 @@ typedef enum {
     ANIM_TEST,
     REIMU_STILL,
     REIMU_LEFT,
-    REIMU_RIGHT
+    REIMU_RIGHT,
+    REIMU_PINK_AMULET,
+    HITBOX
 
 } BulletType;
 
 void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius);
 void LoadBulletSprites();
 void UpdateAnimation(Sprite* sprite);
+Vector2 SpriteCenter(Sprite sprite);
 
 #endif
