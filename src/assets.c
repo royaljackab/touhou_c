@@ -6,8 +6,16 @@
     strcpy(entry->name, name);                                     \
     entry->FIELD = LOADFN(filename);                               \
 
-void LoadAllAssets()
-{
+void LoadAllAssets() {
+
+    /**
+     * Load tous les assets du jeu
+     * 
+     * Utilisation :
+     * - Pour un asset de type ENTRY, faire LOAD_ENTRY("nom", "chemin");
+     * - Ensuite, dans sprite.h, ajouter dans l'enum correspondant le NOM du sprite
+     * - Dans sprite.c, load le sprite correspondant.
+     */
     assets.textureCount = assets.imageCount = assets.fontCount = 0;
     assets.soundCount = assets.musicCount = 0;
 
@@ -20,6 +28,8 @@ void LoadAllAssets()
     LOAD_TEXTURE("reimu_still", "../Assets/Sprites/reimu_still.png");
     LOAD_TEXTURE("reimu_left", "../Assets/Sprites/reimu_left.png");
     LOAD_TEXTURE("reimu_right", "../Assets/Sprites/reimu_right.png");
+    LOAD_TEXTURE("hitbox", "../Assets/Sprites/hitbox.png");
+    LOAD_TEXTURE("reimu_pink_amulet", "../Assets/Sprites/reimu_pink_amulet.png");
     #undef LOAD_TEXTURE
 
     //IMAGES

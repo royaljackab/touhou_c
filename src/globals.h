@@ -27,8 +27,9 @@
 #define MIDDLE_SCREEN (Vector2){SCREEN_WIDTH/2, SCREEN_HEIGHT/2}
 #define MIDDLE_BOSS (Vector2){SCREEN_WIDTH/2, 200}
 
-#define MoveWithinGameX(pos) Clamp(pos, PANEL_WIDTH, SCREEN_WIDTH - PANEL_WIDTH)
-#define MoveWithinGameY(pos) Clamp(pos, 0, SCREEN_HEIGHT)
+#define MoveWithinGameX(pos) pos = Clamp(pos, PANEL_WIDTH, SCREEN_WIDTH - PANEL_WIDTH)
+#define MoveWithinGameY(pos) pos = Clamp(pos, 0, SCREEN_HEIGHT)
+#define MoveWithinGameVec(pos) MoveWithinGameX(pos.x); MoveWithinGameY(pos.y);
 
 extern Assets assets;
 extern Sprite bulletSprites[MAX_SPRITES];

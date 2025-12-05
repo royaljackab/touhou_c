@@ -3,7 +3,7 @@
 
 #include "include/raylib.h"
 
-#define MAX_ASSETS 100
+#define MAX_ASSETS 500
 
 typedef struct {
     char name[32];

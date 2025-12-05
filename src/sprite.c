@@ -2,6 +2,7 @@
 #include "assets.h"
 #include "sprite.h"
 
+#define CENTER_SPRITE(str) (Vector2){GetTexture(str).width/2, GetTexture(str).height/2}
 
 void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius) {
     sprite->spritesheet = GetTexture(texture_name);
@@ -29,14 +30,20 @@ void LoadBulletSprites() {
     SpriteInit(&sprite, "anim_test", 16, 60, (Vector2){16,16}, 8);
     bulletSprites[ANIM_TEST] =sprite;
 
-    SpriteInit(&sprite, "reimu_still", 8, 30, (Vector2){16,48}, 16);
+    SpriteInit(&sprite, "reimu_still", 8, 30, (Vector2){16,24}, 16);
     bulletSprites[REIMU_STILL] =sprite;
 
-    SpriteInit(&sprite, "reimu_left", 8, 30, (Vector2){16,48}, 16);
+    SpriteInit(&sprite, "reimu_left", 8, 30, (Vector2){16,24}, 16);
     bulletSprites[REIMU_LEFT] = sprite;
 
-    SpriteInit(&sprite, "reimu_right", 8, 30, (Vector2){16,48}, 16);
+    SpriteInit(&sprite, "reimu_right", 8, 30, (Vector2){16,24}, 16);
     bulletSprites[REIMU_RIGHT] = sprite;
+
+    SpriteInit(&sprite, "reimu_pink_amulet", 1, 1, (Vector2){8,10}, 8);
+    bulletSprites[REIMU_PINK_AMULET] = sprite;
+
+    SpriteInit(&sprite, "hitbox", 1, 1, CENTER_SPRITE("hitbox"), 3);
+    bulletSprites[HITBOX] = sprite;
 }
 
 void UpdateAnimation(Sprite* sprite) {
@@ -50,6 +57,13 @@ void UpdateAnimation(Sprite* sprite) {
     }
 }
 
+Vector2 SpriteCenter(Sprite sprite) {
+    /**
+     * Renvoie le centre d'un sprite
+     */
 
+    Vector2 location = (Vector2){sprite.frameRec.x, sprite.frameRec.y};
+    return Vector2Add(location, sprite.collisionOffset);
 
+}
 

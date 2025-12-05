@@ -1,6 +1,15 @@
 #include "player.h"
 
+float angleHitbox=0;
+int hitboxAlpha=0;
+int shootTimer=0;
+
+#define hitboxColor(alpha) (Color){255,255,255,alpha}
+
 void PlayerInit(Player *p, Vector2 pos, float speed, float focusSpeed, int hp, Sprite sprite){
+  /**
+   * Initialisation d'un joueur
+   */
   p->pos = pos;
   p->location = (Vector2){pos.x - sprite.collisionOffset.x, pos.y - sprite.collisionOffset.y};
 
@@ -15,29 +24,39 @@ void PlayerInit(Player *p, Vector2 pos, float speed, float focusSpeed, int hp, S
 }
 
 void UpdatePlayer(Player *p){
-  //Met à jour la position du joueur en fonction de sa position centrale
-  p->location = (Vector2){p->pos.x - p->sprite.collisionOffset.x, p->pos.y - p->sprite.collisionOffset.y};
+  /**
+   * Met à jour la position du joueur en fonction de sa position centrale
+   */
 
   float speed;
+
   //Si en focus ou pas
   if(IsKeyDown(KEY_LEFT_SHIFT)) {
     speed = p->focusSpeed;
   } else {
     speed = p->speed;
   }
+
   //Bouge le joueur
+  Vector2 movement = {0,0};
+
   if(IsKeyDown(KEY_RIGHT)) {
-    p->pos.x = MoveWithinGameX(p->pos.x + speed);
+    movement.x++;
   }
   if(IsKeyDown(KEY_LEFT)) {
-    p->pos.x = MoveWithinGameX(p->pos.x - speed);
+    movement.x--;
   }
   if(IsKeyDown(KEY_UP)) {
-    p->pos.y = MoveWithinGameY(p->pos.y - speed);
+    movement.y--;
   }
   if(IsKeyDown(KEY_DOWN)) {
-    p->pos.y = MoveWithinGameY(p->pos.y + speed);
+    movement.y++;
   }
+  p->pos = Vector2Add(p->pos, Vector2Scale(Vector2Normalize(movement), speed));
+  MoveWithinGameVec(p->pos);
+
+  p->location = (Vector2){p->pos.x - p->sprite.collisionOffset.x, p->pos.y - p->sprite.collisionOffset.y};
+
 
   //change les animations du joueur en fonction de sa direction
   if(IsKeyPressed(KEY_RIGHT)){  //droite
@@ -54,6 +73,17 @@ void UpdatePlayer(Player *p){
   //Met à jour l'animation du joueur
   DrawTextureRec(p->sprite.spritesheet, p->sprite.frameRec, p->location, WHITE);
   UpdateAnimation(&p->sprite);
+
+  showHitbox(p);
+
+  shootTimer++;
+  if(IsKeyDown(KEY_Z) && shootTimer % 3 == 0) {
+    shootTimer = 0;
+
+    int data[MAX_DATA] = {0};
+    SpawnBullet((Vector2){p->pos.x + 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 0, 1);
+    SpawnBullet((Vector2){p->pos.x - 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 0, 1);
+  }
 
   //Met à jour le compteur d'invinsibilité
   if (p->invisFrames > 0)
@@ -104,4 +134,33 @@ int playerIsColliding(Player *player ){
 
 int playerIsAlive(Player p){
     return (p.hp>0);
+}
+
+void showHitbox(Player* p) {
+
+  /**
+   * Affiche l'hitbox du joueur, appelée lorsque mode focus activé (shift)
+   * L'hitbox tourne sur elle-même, avec un effet fade-in/fade-out
+   */
+
+  if(IsKeyPressed(KEY_LEFT_SHIFT)) {
+    //fade in
+    hitboxAlpha=0;
+  }
+  if(IsKeyDown(KEY_LEFT_SHIFT)) {
+    //Affichage de la hitbox
+    angleHitbox += 3;
+    hitboxAlpha = Clamp(hitboxAlpha + 30, 0, 255);
+
+    Rectangle recDest = {p->pos.x, p->pos.y, bulletSprites[HITBOX].frameRec.width, bulletSprites[HITBOX].frameRec.height};
+    DrawTexturePro(bulletSprites[HITBOX].spritesheet, bulletSprites[HITBOX].frameRec, recDest, (Vector2){32,32}, angleHitbox, hitboxColor(hitboxAlpha));
+  }
+  //fade out
+  if(IsKeyUp(KEY_LEFT_SHIFT) && hitboxAlpha > 0) {
+    angleHitbox += 3;
+    hitboxAlpha = Clamp(hitboxAlpha - 30,0,255);
+
+    Rectangle recDest = {p->pos.x, p->pos.y, bulletSprites[HITBOX].frameRec.width, bulletSprites[HITBOX].frameRec.height};
+    DrawTexturePro(bulletSprites[HITBOX].spritesheet, bulletSprites[HITBOX].frameRec, recDest, (Vector2){32,32}, angleHitbox, hitboxColor(hitboxAlpha));
+  }
 }

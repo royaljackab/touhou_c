@@ -10,8 +10,8 @@
 #define INVINSIBILITY_DURATION 100
 
 typedef struct {
-  Vector2 location; //Corner Up-Left for drawing
-  Vector2 pos; //Center for collision
+  Vector2 location; //Coin en haut a gauche pour affichage du sprite
+  Vector2 pos; //Centre pour la collision
   float speed; 
   float focusSpeed;
   int hp;
@@ -26,5 +26,6 @@ void PlayerInit(Player *p, Vector2 pos, float speed, float focusSpeed, int hp, S
 void UpdatePlayer(Player *p);
 int playerIsColliding(Player *p);
 int damagePlayer(Player *p, int damage); 
+void showHitbox(Player *p);
 
 #endif

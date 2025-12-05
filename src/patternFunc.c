@@ -12,7 +12,11 @@ void Pattern_SineWave(Bullet* bullet, int userData[MAX_DATA]) {
 }
 
 void Pattern_SpawnCircle(Bullet* bullet, int userData[MAX_DATA]) {
-    // userData : [nbBullets, speed, circleFrame, generation]
+    /**
+     * Cercle qui spawn des cercles qui spawn des cercles...
+     * 
+     * userData : [nbBullets, speed, circleFrame, generation]
+     *  */ 
     Pattern_Straight(bullet, userData);
     int newData[MAX_DATA] = {userData[NB_BULLETS], userData[SPEED] + 1, userData[CIRCLE_FRAME], userData[GENERATION] + 1, userData[GEN_MAX]};
 
