@@ -53,6 +53,11 @@ void UpdateBullets() {
     }
 }
 
+void Rotate_Bullet(Bullet* bullet, float angle){
+    Vector2Rotate(bullet->direction, angle);
+}
+
+
 void ShowBulletHitbox(Bullet* bullet) {
     /**
      * Affiche les hitbox de chaque balle par un cercle bleu (debug mode)

@@ -41,5 +41,5 @@ void SpawnBullet(Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUN
 void SpawnBulletPol(Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
 void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, BULLET_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
 void SpawnBulletToPlayer(Vector2 pos, Player player, float speed, BULLET_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
-
+void Rotate_Bullet(Bullet* bullet, float angle);
 #endif
