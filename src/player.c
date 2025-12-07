@@ -80,7 +80,7 @@ void UpdatePlayer(Player *p){
   if(IsKeyDown(KEY_Z) && shootTimer % 3 == 0) {
     shootTimer = 0;
 
-    int data[MAX_DATA] = {0};
+    float data[MAX_DATA] = {0};
     SpawnBullet((Vector2){p->pos.x + 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 0, 1);
     SpawnBullet((Vector2){p->pos.x - 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 0, 1);
   }
@@ -101,14 +101,16 @@ void UpdatePlayer(Player *p){
 
 
 int playerIsColliding(Player *player ){
-//renvoie les degats pris par la 1ere bullet qui touche le joueur sur ce tick
+/**
+ * renvoie les degats pris par la 1ere bullet qui touche le joueur sur ce tick
+ */
 
   if(player->invisFrames==0){
     for (int i = 0; i < nbBullets; i++) {
-      int collision = CheckCollisionCircles(player->location , player->sprite.collisionRadius, bullets[i].location, bullets[i].sprite.collisionRadius);
-      if (collision){
+      int collision = CheckCollisionCircles(player->pos , player->sprite.collisionRadius, bullets[i].pos, bullets[i].sprite.collisionRadius);
+      if (collision && bullets[i].bDamage){
         DrawText("AIE AIE TOUCHÉ", 20 , 70, 20, RED);
-        return bullets[i].bDamage;
+        return true;
       }
     }
   }
@@ -117,9 +119,11 @@ int playerIsColliding(Player *player ){
 }
 
  int damagePlayer(Player *p, int damage){
- //inflige des dégâts au joueur et le rend invinsible. By-pass l'invinsibilité
- //renvoie 0 si le joueur est tué
- if (damage!=0){
+ /**
+  * inflige des dégâts au joueur et le rend invinsible. By-pass l'invinsibilité
+  * renvoie 0 si le joueur est tué
+  */
+  if (damage!=0){
     p->hp -= damage;
     if (p->hp <= 0)
       return 0;
@@ -138,7 +142,7 @@ int playerIsAlive(Player p){
 
 void showHitbox(Player* p) {
 
-  /**
+  /* *
    * Affiche l'hitbox du joueur, appelée lorsque mode focus activé (shift)
    * L'hitbox tourne sur elle-même, avec un effet fade-in/fade-out
    */

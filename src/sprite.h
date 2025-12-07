@@ -37,8 +37,7 @@ typedef enum {
     REIMU_RIGHT,
     REIMU_PINK_AMULET,
     HITBOX
-
-} BulletType;
+} BulletType; 
 
 void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius);
 void LoadBulletSprites();

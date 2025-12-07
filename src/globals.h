@@ -10,9 +10,11 @@
 #include "include/raymath.h"
 #include "assets.h"
 #include "sprite.h"
+#include "player.h"
 #include "bullet.h"
 #include "patternFunc.h"
-#include "player.h"
+
+
 
 #define PANEL_WIDTH 500
 #define SCREEN_WIDTH 1920
@@ -31,9 +33,15 @@
 #define MoveWithinGameY(pos) pos = Clamp(pos, 0, SCREEN_HEIGHT)
 #define MoveWithinGameVec(pos) MoveWithinGameX(pos.x); MoveWithinGameY(pos.y);
 
+#define AngleToV(v1,v2) atan((v2.y - v1.y)/(v2.x - v1. x))
+#define AngleToPlayer(src, player) AngleToV(src, player.pos)
+
 extern Assets assets;
 extern Sprite bulletSprites[MAX_SPRITES];
 extern Bullet bullets[MAX_BULLETS];
 extern int nbBullets;
+extern int debug;
+
+extern Player player1;
 
 #endif
