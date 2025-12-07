@@ -9,7 +9,7 @@
 
 #define INVINSIBILITY_DURATION 100
 
-typedef struct {
+typedef struct Player {
   Vector2 location; //Coin en haut a gauche pour affichage du sprite
   Vector2 pos; //Centre pour la collision
   float speed; 

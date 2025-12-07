@@ -24,7 +24,7 @@ void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpee
 void LoadBulletSprites() {
     Sprite sprite;
 
-    SpriteInit(&sprite, "ball_m_black", 1, 1, (Vector2){8,8}, 2);
+    SpriteInit(&sprite, "ball_m_black", 1, 1, (Vector2){8,8}, 5);
     bulletSprites[BALL_M_BLACK] = sprite;
 
     SpriteInit(&sprite, "anim_test", 16, 60, (Vector2){16,16}, 8);
