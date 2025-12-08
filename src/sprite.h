@@ -19,16 +19,6 @@ typedef struct {
 
 } Sprite;
 
-typedef struct {
-    Sprite sprite;
-    char* name;
-} SpriteEntry;
-
-typedef struct {
-    SpriteEntry spritesTab[MAX_SPRITES];
-    int nbSprites;
-} Sprites;
-
 typedef enum {
     BALL_M_BLACK,
     ANIM_TEST,
@@ -40,6 +30,7 @@ typedef enum {
     FAIRY_S_BLUE_STILL
 } BulletType; 
 
+void SpriteInitRec(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius, int x, int y, int width, int height);
 void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius);
 void LoadBulletSprites();
 void UpdateAnimation(Sprite* sprite);

@@ -9,7 +9,7 @@ int nbEnemies = 0;
 int frame = 0;
 
 //Debug mode : Affiche les hitbox
-int debug=1;
+int debug=0;
 
 Player player1;
 
