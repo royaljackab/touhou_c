@@ -6,7 +6,6 @@ void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BUL
     bullet->pos = pos;
     bullet->sprite = bulletSprites[type];
     bullet->speed = speed; 
-    bullet->hp = 1;
 
     bullet->location = (Vector2){pos.x - bullet->sprite.collisionOffset.x, pos.y - bullet->sprite.collisionOffset.y};
     bullet->direction = Vector2Normalize(direction);
@@ -16,7 +15,6 @@ void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BUL
     bullet->bActive = TRUE;
     bullet->bDamage = damage;
     bullet->bVisible = visible;
-    bullet->bEnemy = 0;
     bullet->timer = 0;
 
     bullets[nbBullets++] = *bullet;

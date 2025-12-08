@@ -23,7 +23,6 @@ typedef struct bulletTemp {
     Vector2 location; //Corner Up-Left for drawing
     Vector2 direction;
     float speed;
-    int hp;
 
     int timer;
     void (*pattern)(struct bulletTemp* bullet, float userData[MAX_DATA]);
@@ -31,7 +30,6 @@ typedef struct bulletTemp {
 
     int bActive;
     int bVisible;
-    int bEnemy;
     int bDamage;
 } Bullet;
 
