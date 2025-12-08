@@ -27,11 +27,9 @@ void pattern_test_circleSpawn() {
     float angleRand;
     if (frame%30==0) {
         angleRand = GetRandomValue(180,360);
-        SpawnBulletCircle(12, MIDDLE_BOSS, angleRand, 5, Pattern_Test, data, BALL_M_BLACK, 1, 1);
+        SpawnBulletCircle(12, MIDDLE_BOSS, angleRand, 5, Pattern_Test, data, FAIRY_S_BLUE_STILL, 1, 1);
     }
 }
-
-
 
 int main() {
     init();

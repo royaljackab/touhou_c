@@ -44,6 +44,9 @@ void LoadBulletSprites() {
 
     SpriteInit(&sprite, "hitbox", 1, 1, CENTER_SPRITE("hitbox"), 3);
     bulletSprites[HITBOX] = sprite;
+
+    SpriteInit(&sprite, "fairy_s_blue_still", 4, 30, (Vector2){24,16}, 6);
+    bulletSprites[FAIRY_S_BLUE_STILL] = sprite;
 }
 
 void UpdateAnimation(Sprite* sprite) {

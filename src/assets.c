@@ -30,6 +30,7 @@ void LoadAllAssets() {
     LOAD_TEXTURE("reimu_right", "../Assets/Sprites/reimu_right.png");
     LOAD_TEXTURE("hitbox", "../Assets/Sprites/hitbox.png");
     LOAD_TEXTURE("reimu_pink_amulet", "../Assets/Sprites/reimu_pink_amulet.png");
+    LOAD_TEXTURE("fairy_s_blue_still", "../Assets/Sprites/fairy_s_blue_still.png");
     #undef LOAD_TEXTURE
 
     //IMAGES
