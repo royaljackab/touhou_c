@@ -81,8 +81,8 @@ void UpdatePlayer(Player *p){
     shootTimer = 0;
 
     float data[MAX_DATA] = {0};
-    SpawnBullet((Vector2){p->pos.x + 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 0, 1);
-    SpawnBullet((Vector2){p->pos.x - 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 0, 1);
+    SpawnBullet((Vector2){p->pos.x + 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 2, 1);
+    SpawnBullet((Vector2){p->pos.x - 8, p->pos.y - 40}, (Vector2){0,-1}, 30, Pattern_Straight, data, REIMU_PINK_AMULET, 2, 1);
   }
 
   //Met à jour le compteur d'invinsibilité

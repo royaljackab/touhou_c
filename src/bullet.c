@@ -2,7 +2,7 @@
 #include "bullet.h"
 
 
-void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible) {
+void EntityInit(Entity* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible) {
     bullet->pos = pos;
     bullet->sprite = bulletSprites[type];
     bullet->speed = speed; 
@@ -16,7 +16,10 @@ void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BUL
     bullet->bDamage = damage;
     bullet->bVisible = visible;
     bullet->timer = 0;
+}
 
+void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BULLET_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible) {
+    EntityInit(bullet, pos, direction, speed, pattern, userData, type, damage, visible);
     bullets[nbBullets++] = *bullet;
 }
 

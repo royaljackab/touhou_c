@@ -3,13 +3,13 @@
 Assets assets;
 Sprite bulletSprites[MAX_SPRITES];
 Bullet bullets[MAX_BULLETS];
-Bullet enemies[MAX_ENEMIES];
+Enemy enemies[MAX_ENEMIES];
 int nbBullets = 0;
 int nbEnemies = 0;
 int frame = 0;
 
 //Debug mode : Affiche les hitbox
-int debug=0;
+int debug=1;
 
 Player player1;
 
@@ -25,12 +25,12 @@ void init() {
 }
 
 void pattern_test_circleSpawn() {
-    float data[MAX_DATA] = {0.01, MIDDLE_BOSS.x, MIDDLE_BOSS.y};
+    float data[MAX_DATA] = {0.2, MIDDLE_BOSS.x, MIDDLE_BOSS.y};
     float angleRand;
-    if (frame%30==0) {
+    if (frame%5==0) {
         angleRand = GetRandomValue(0,360);
-        SpawnBulletCircle(12, MIDDLE_BOSS, angleRand, 5, Pattern_Test, data, BALL_M_BLACK, 1, 1);
-        SpawnEnemyPol(MIDDLE_BOSS, angleRand, 5, Pattern_Straight, data, FAIRY_S_BLUE_STILL, 1, 1, 50);
+        SpawnBulletPol(MIDDLE_BOSS, angleRand, 3, Pattern_Test, data, BALL_M_BLACK, 1, 1);
+        SpawnEnemyPol(MIDDLE_BOSS, angleRand, 1, Pattern_Straight, data, FAIRY_S_BLUE_STILL, 1,1,20);
     }
 }
 

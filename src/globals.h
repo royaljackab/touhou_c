@@ -40,7 +40,7 @@
 extern Assets assets;
 extern Sprite bulletSprites[MAX_SPRITES];
 extern Bullet bullets[MAX_BULLETS];
-extern Bullet enemies[MAX_ENEMIES];
+extern Enemy enemies[MAX_ENEMIES];
 extern int nbBullets;
 extern int nbEnemies;
 extern int debug;

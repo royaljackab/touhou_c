@@ -1,30 +1,16 @@
 #include "globals.h"
 #include "enemy.h"
 
-void EnemyInit(Bullet* enemy, Vector2 pos, Vector2 direction, float speed, ENEMY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible, int hp) {
-    enemy->pos = pos;
-    enemy->sprite = bulletSprites[type];
-    enemy->speed = speed; 
+void EnemyInit(Enemy* enemy, Vector2 pos, Vector2 direction, float speed, ENEMY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible, int hp) {
     enemy->hp = hp;
-
-    enemy->location = (Vector2){pos.x - enemy->sprite.collisionOffset.x, pos.y - enemy->sprite.collisionOffset.y};
-    enemy->direction = Vector2Normalize(direction);
-    enemy->pattern = pattern;
-    memcpy(enemy->userData, userData, sizeof(float)*MAX_DATA);
-
-    enemy->bActive = TRUE;
-    enemy->bDamage = damage;
-    enemy->bVisible = visible;
-    enemy->bEnemy = 1;
-    enemy->timer = 0;
+    EntityInit(&enemy->entity, pos, direction, speed, pattern, userData, type, damage, visible);
 
     enemies[nbEnemies++] = *enemy;
 }
 
 void SpawnEnemy(Vector2 pos, Vector2 direction, float speed, ENEMY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible, int hp) {
-    if (nbEnemies >= MAX_BULLETS) return; 
     if (nbEnemies >= MAX_ENEMIES) return;
-    Bullet enemy;
+    Enemy enemy;
     EnemyInit(&enemy, pos, direction, speed, pattern, userData, type, damage, visible, hp);
 
 }
@@ -37,14 +23,23 @@ void SpawnEnemyPol(Vector2 pos, float angle, float speed, ENEMY_PATTERN_FUNC, fl
     SpawnEnemy(pos, direction, speed, pattern, userData, type, damage, visible, hp);
 }
 
+void UpdateEnemy(Enemy* enemy) {
+    UpdateBullet(&enemy->entity);
+    for (int i=0; i<nbBullets; i++) {
+        if(bullets[i].bDamage == 2 && CheckCollisionCircles(bullets[i].pos, bullets[i].sprite.collisionRadius, enemy->entity.pos, enemy->entity.sprite.collisionRadius)) {
+            enemy->hp -= bullets[i].bDamage;
+        }
+    }
+}
+
 void UpdateEnemies() {
     // Pour les ennemis, on peut réutiliser la fonction UpdateBullet, mais pas la fonction UpdateBullets qui travaille un tableau spécifique.
 
     for (int i = 0; i < nbEnemies; i++) {
-        UpdateBullet(&enemies[i]);
-        enemies[i].pattern(&enemies[i], enemies[i].userData);
+        UpdateEnemy(&enemies[i]);
+        enemies[i].entity.pattern(&enemies[i].entity, enemies[i].entity.userData);
 
-        if (!enemies[i].bActive) {
+        if (!enemies[i].entity.bActive || enemies[i].hp <= 0) {
             //On échange avec le dernier et on décrémente
             enemies[i] = enemies[nbEnemies - 1];
             nbEnemies--;
