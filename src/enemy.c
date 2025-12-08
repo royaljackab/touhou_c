@@ -40,14 +40,14 @@ void SpawnEnemyPol(Vector2 pos, float angle, float speed, ENEMY_PATTERN_FUNC, fl
 void UpdateEnemies() {
     // Pour les ennemis, on peut réutiliser la fonction UpdateBullet, mais pas la fonction UpdateBullets qui travaille un tableau spécifique.
 
-    for (int i = 0; i < nbBullets; i++) {
+    for (int i = 0; i < nbEnemies; i++) {
         UpdateBullet(&enemies[i]);
         enemies[i].pattern(&enemies[i], enemies[i].userData);
 
         if (!enemies[i].bActive) {
             //On échange avec le dernier et on décrémente
-            enemies[i] = enemies[nbBullets - 1];
-            nbBullets--;
+            enemies[i] = enemies[nbEnemies - 1];
+            nbEnemies--;
             i--; //Il faut repasser sur l'index i donc
         }
     }
