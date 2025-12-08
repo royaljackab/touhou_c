@@ -15,8 +15,6 @@
 #include "enemy.h"
 #include "patternFunc.h"
 
-
-
 #define PANEL_WIDTH 500
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
