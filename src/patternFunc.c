@@ -45,7 +45,7 @@ void Pattern_Gravity(Bullet* bullet, float userData[MAX_DATA]) {
 
 void Pattern_Test(Bullet* bullet, float userData[MAX_DATA]) {
     if (bullet->timer <= 60) {
-        Pattern_Straight(bullet, userData);
+        Pattern_Gravity(bullet, userData);
     } else {
         bullet->bActive = 0;
         SpawnBulletToPlayer(bullet->pos, player1, bullet->speed, Pattern_Straight, userData, BALL_M_BLACK, 1, 1);
