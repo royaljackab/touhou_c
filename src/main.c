@@ -3,8 +3,10 @@
 Assets assets;
 Sprite bulletSprites[MAX_SPRITES];
 Bullet bullets[MAX_BULLETS];
+Bullet enemies[MAX_ENEMIES];
 int nbBullets = 0;
-int frame=0;
+int nbEnemies = 0;
+int frame = 0;
 
 //Debug mode : Affiche les hitbox
 int debug=0;

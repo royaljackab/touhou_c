@@ -6,6 +6,7 @@ void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BUL
     bullet->pos = pos;
     bullet->sprite = bulletSprites[type];
     bullet->speed = speed; 
+    bullet->hp = 1;
 
     bullet->location = (Vector2){pos.x - bullet->sprite.collisionOffset.x, pos.y - bullet->sprite.collisionOffset.y};
     bullet->direction = Vector2Normalize(direction);
@@ -15,7 +16,7 @@ void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, BUL
     bullet->bActive = TRUE;
     bullet->bDamage = damage;
     bullet->bVisible = visible;
-
+    bullet->bEnemy = 0;
     bullet->timer = 0;
 
     bullets[nbBullets++] = *bullet;
@@ -54,7 +55,10 @@ void UpdateBullets() {
 }
 
 void Rotate_Bullet(Bullet* bullet, float angle){
-    Vector2Rotate(bullet->direction, angle);
+    /**
+     * Effectue une rotation sur la direction d'une balle selon un angle
+     */
+    bullet->direction = Vector2Rotate(bullet->direction, angle);
 }
 
 
@@ -93,3 +97,5 @@ void SpawnBulletToPlayer(Vector2 pos, Player player, float speed, BULLET_PATTERN
 
     SpawnBullet(pos, srcToPlayer, 5, pattern, userData, type, damage, visible);
 }
+
+

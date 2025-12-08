@@ -3,6 +3,7 @@
 
 #define BULLET_PATTERN_FUNC void (*pattern)(struct bulletTemp* bullet, float userData[MAX_DATA])
 
+
 #include "include/raylib.h"
 #include "assets.h"
 #include "sprite.h"
@@ -10,6 +11,7 @@
 struct Player;
 typedef struct Player Player;
 
+#define MAX_ENEMIES 100
 #define MAX_BULLETS 10000
 #define MAX_DATA 10
 
@@ -21,6 +23,7 @@ typedef struct bulletTemp {
     Vector2 location; //Corner Up-Left for drawing
     Vector2 direction;
     float speed;
+    int hp;
 
     int timer;
     void (*pattern)(struct bulletTemp* bullet, float userData[MAX_DATA]);
@@ -28,6 +31,7 @@ typedef struct bulletTemp {
 
     int bActive;
     int bVisible;
+    int bEnemy;
     int bDamage;
 } Bullet;
 
