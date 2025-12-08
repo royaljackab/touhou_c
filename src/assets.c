@@ -1,10 +1,11 @@
 #include "assets.h"
 #include "globals.h"
+#include <string.h>
 
 #define LOAD_ENTRY(TYPE, FIELD, COUNTER, LOADFN)                    \
-    entry = &assets.FIELD##s[assets.COUNTER++];        \
-    strcpy(entry->name, name);                                     \
-    entry->FIELD = LOADFN(filename);                               \
+    entry = &assets.FIELD##s[assets.COUNTER++];                     \
+    strcpy(entry->name, name);                                      \
+    entry->FIELD = LOADFN(filename);                                \
 
 void LoadAllAssets() {
 

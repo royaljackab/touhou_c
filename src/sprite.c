@@ -4,21 +4,27 @@
 
 #define CENTER_SPRITE(str) (Vector2){GetTexture(str).width/2, GetTexture(str).height/2}
 
-void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius) {
+
+void SpriteInitRec(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius, int x, int y, int width, int height) {
     sprite->spritesheet = GetTexture(texture_name);
 
     sprite->animSpeed = animSpeed;
     sprite->nbFrames = nbFrames;
 
-    sprite->frameRec.x = sprite->frameRec.y = 0;
-    sprite->frameRec.height = sprite->spritesheet.height;
-    sprite->frameRec.width = sprite->spritesheet.width / sprite->nbFrames;
+    sprite->frameRec.x = x;
+    sprite->frameRec.y = y;
+    sprite->frameRec.height = height;
+    sprite->frameRec.width = width / nbFrames;
 
     sprite->currentFrame = 0;
     sprite->frameCounter = 0;
 
     sprite->collisionOffset = collisionOffset;
     sprite->collisionRadius = collisionRadius;
+}
+
+void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius) {
+    SpriteInitRec(sprite, texture_name, nbFrames, animSpeed, collisionOffset, collisionRadius, 0, 0, GetTexture(texture_name).width, GetTexture(texture_name).height);
 }
 
 void LoadBulletSprites() {
@@ -47,6 +53,8 @@ void LoadBulletSprites() {
 
     SpriteInit(&sprite, "fairy_s_blue_still", 4, 30, (Vector2){24,16}, 6);
     bulletSprites[FAIRY_S_BLUE_STILL] = sprite;
+
+    
 }
 
 void UpdateAnimation(Sprite* sprite) {
@@ -67,6 +75,5 @@ Vector2 SpriteCenter(Sprite sprite) {
 
     Vector2 location = (Vector2){sprite.frameRec.x, sprite.frameRec.y};
     return Vector2Add(location, sprite.collisionOffset);
-
 }
 
