@@ -2,6 +2,7 @@
 #define PATTERNFUNC_H
 
 #include "include/raylib.h"
+#include "entity.h"
 #include "bullet.h"
 
 typedef enum {
@@ -17,4 +18,4 @@ void Pattern_SineWave(Bullet* bullet, float userData[MAX_DATA]);
 void Pattern_SpawnCircle(Bullet* bullet, float userData[MAX_DATA]);
 void Pattern_Gravity(Bullet* bullet, float userData[MAX_DATA]);
 void Pattern_Test(Bullet* bullet, float userData[MAX_DATA]);
-#endif 
+#endif
