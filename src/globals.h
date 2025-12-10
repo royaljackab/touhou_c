@@ -42,6 +42,7 @@ extern Enemy enemies[MAX_ENEMIES];
 extern int nbBullets;
 extern int nbEnemies;
 extern int debug;
+extern unsigned long idCounterEnemy;
 
 extern Player player1;
 

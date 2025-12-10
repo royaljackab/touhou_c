@@ -13,9 +13,9 @@ typedef enum {
     GEN_MAX
 } SpawnCircleData;
 
-void Pattern_Straight(Bullet* bullet, float userData[MAX_DATA]);
-void Pattern_SineWave(Bullet* bullet, float userData[MAX_DATA]);
-void Pattern_SpawnCircle(Bullet* bullet, float userData[MAX_DATA]);
-void Pattern_Gravity(Bullet* bullet, float userData[MAX_DATA]);
-void Pattern_Test(Bullet* bullet, float userData[MAX_DATA]);
+void Pattern_Straight(Entity* bullet, float userData[MAX_DATA]);
+void Pattern_SineWave(Entity* bullet, float userData[MAX_DATA]);
+void Pattern_SpawnCircle(Entity* bullet, float userData[MAX_DATA]);
+void Pattern_Gravity(Entity* bullet, float userData[MAX_DATA]);
+void Pattern_Test(Entity* bullet, float userData[MAX_DATA]);
 #endif

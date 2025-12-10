@@ -7,6 +7,7 @@ Enemy enemies[MAX_ENEMIES];
 int nbBullets = 0;
 int nbEnemies = 0;
 int frame = 0;
+unsigned long idCounterEnemy = 1; //0 correspond à aucun parent, donc l'id minimum est 1
 
 //Debug mode : Affiche les hitbox
 int debug=0;
@@ -29,8 +30,7 @@ void pattern_test_circleSpawn() {
     float angleRand;
     if (frame%5==0) {
         angleRand = GetRandomValue(0,360);
-        SpawnBulletPol(MIDDLE_BOSS, angleRand, 3, Pattern_Test, data, BALL_M_BLACK, 1, 1);
-        SpawnEnemyPol(MIDDLE_BOSS, angleRand, 1, Pattern_Straight, data, FAIRY_S_BLUE_STILL, 1,1,20);
+        SpawnBulletPolParent(MIDDLE_BOSS, angleRand, 2, Pattern_Straight, data, BALL_M_BLACK, 1, 1, SpawnEnemyPol(MIDDLE_BOSS, angleRand, 1, Pattern_Straight, data, FAIRY_S_BLUE_STILL, 1,1,20));
     }
 }
 

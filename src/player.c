@@ -107,8 +107,9 @@ int playerIsColliding(Player *player ){
 
   if(player->invisFrames==0){
     for (int i = 0; i < nbBullets; i++) {
-      int collision = CheckCollisionCircles(player->pos , player->sprite.collisionRadius, bullets[i].pos, bullets[i].sprite.collisionRadius);
-      if (collision && bullets[i].bDamage){
+      Entity entityB = bullets[i].entity;
+      int collision = CheckCollisionCircles(player->pos , player->sprite.collisionRadius, entityB.pos, entityB.sprite.collisionRadius);
+      if (collision && entityB.bDamage){
         DrawText("AIE AIE TOUCHÉ", 20 , 70, 20, RED);
         return true;
       }
@@ -120,7 +121,7 @@ int playerIsColliding(Player *player ){
 
  int damagePlayer(Player *p, int damage){
  /**
-  * inflige des dégâts au joueur et le rend invinsible. By-pass l'invinsibilité
+  * inflige des dégâts au joueur et le rend invincible. By-pass l'invinsibilité
   * renvoie 0 si le joueur est tué
   */
   if (damage!=0){

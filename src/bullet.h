@@ -3,16 +3,24 @@
 
 #include "include/raylib.h"
 #include "entity.h"
+#include "enemy.h"
+
+#define MAX_BULLETS 10000
 
 struct Player;
 typedef struct Player Player;
 
-typedef Entity Bullet;
+typedef struct bulletTemp {
+    Entity entity;
+    unsigned long idParent;
+} Bullet;
 
-void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
+void BulletInit(Bullet* bullet, Vector2 pos, Vector2 direction, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible, unsigned long idParent);
 void UpdateBullets();
 void SpawnBullet(Vector2 pos, Vector2 direction, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
 void SpawnBulletPol(Vector2 pos, float angle, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
+void SpawnBulletParent(Vector2 pos, Vector2 direction, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible, unsigned long idParent);
+void SpawnBulletPolParent(Vector2 pos, float angle, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible, unsigned long idParent);
 void SpawnBulletCircle(int nbBullets, Vector2 pos, float angle, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
 void SpawnBulletToPlayer(Vector2 pos, Player player, float speed, ENTITY_PATTERN_FUNC, float userData[MAX_DATA], BulletType type, int damage, int visible);
 

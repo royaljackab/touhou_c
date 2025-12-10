@@ -7,7 +7,7 @@
 #include "assets.h"
 #include "sprite.h"
 
-#define MAX_BULLETS 10000
+
 #define MAX_DATA 10
 
 typedef struct entityTemp {
