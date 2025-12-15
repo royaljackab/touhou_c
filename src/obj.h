@@ -1,0 +1,96 @@
+#ifndef OBJ_H
+#define OBJ_H
+
+#include "include/raylib.h"
+#include "include/raymath.h"
+
+#include "sprite.h"
+#include "globals.h"
+
+#define NO_CHANGE -9999999
+#define NO_LIMIT 9999999
+#define MAX_PATTERNS 8
+
+#define MAX_OBJECTS 10000
+
+typedef int ObjID;
+
+
+typedef enum {
+    ID_INVALID = -1,
+    OBJ_PLAYER,
+    OBJ_ENEMY,
+    OBJ_BOSS,
+    OBJ_ENEMY_SHOT,
+    OBJ_PLAYER_SHOT
+} ObjType;
+
+typedef struct {
+    int delay;
+    float speed;
+    float angle;
+    
+    float accel;
+    float angVel;
+    float maxSpd;
+    Vector2 force;
+} MovePattern;
+
+typedef struct {
+    bool active;
+    ObjType type;
+
+    Vector2 pos;
+    float speed;
+    float angle; //en degrés
+    float accel;
+    float maxSpd;
+    float angVel;
+    Vector2 force;
+
+    float life;
+    float maxLife;
+    int damage;
+
+    Sprite sprite;
+
+    bool movingToDest;
+    Vector2 destPos;
+
+    int delay;
+    int timer;
+
+
+
+    // File de patterns
+    MovePattern patterns[MAX_PATTERNS];
+    int patternCount;
+
+} Object;
+
+extern Object objects[MAX_OBJECTS];
+
+ObjID Obj_Create(ObjType type);
+void Obj_Delete(ObjID* id);
+void Obj_SetDelay(ObjID id, int delay);
+void ObjMove_SetPosition(ObjID id, float x, float y);
+void ObjMove_SetSpeed(ObjID id, float speed);
+void ObjMove_SetAngle(ObjID id, float angle);
+void ObjMove_SetDestAtSpeed(ObjID id, float x, float y, float speed);
+void ObjMove_SetAccel(ObjID id, float acc, float maxSpd);
+void ObjMove_AddPattern(ObjID id, int frameDelay, float speed, float angle, float accel, float maxSpd, float angVel);
+void ObjMove_SetForce(ObjID id, float x, float y);
+void UpdateObjects();
+void Obj_SetTexture(ObjID id, int textureID);
+void ObjSprite2D_SetSourceRect(ObjID id, float x, float y, float width, float height);
+void ObjSprite2D_SetCenter(ObjID id, float x, float y);
+void ObjSprite2D_SetRotation(ObjID id, float rotation);
+void ObjSprite2D_SetScale(ObjID id, float x, float y);
+void ObjSprite2D_SetColor(ObjID id, Color color);
+void ObjSprite2D_SetAnimation(ObjID id, int frameCount, int delay);
+void ObjSprite2D_SetCollisionToShot(ObjID id, float radius);
+void UpdateAnimations();
+void DrawObjects();
+void UpdateCollisions();
+
+#endif
