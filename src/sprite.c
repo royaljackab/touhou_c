@@ -1,79 +1,71 @@
-#include "globals.h"
-#include "assets.h"
 #include "sprite.h"
 
-#define CENTER_SPRITE(str) (Vector2){GetTexture(str).width/2, GetTexture(str).height/2}
+void SetTexture(Sprite* sprite, int textureID) {
+    sprite->textureID = textureID;
+    sprite->srcRect = (Rectangle){0,0,textures[textureID].width, textures[textureID].height};
+    sprite->center = (Vector2){textures[textureID].width/2, textures[textureID].height/2}; //Par défaut, le milieu
+    sprite->isAnimated = false;
+    sprite->color = WHITE;
+    sprite->rotation = 0;
+    sprite->scale = (Vector2){1,1};
+}
 
+void SetSourceRect(Sprite* sprite, float x, float y, float width, float height) {
+    sprite->srcRect = (Rectangle){x,y,width,height};
+    sprite->center = (Vector2){width/2, height/2};
+}
 
-void SpriteInitRec(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius, int x, int y, int width, int height) {
-    sprite->spritesheet = GetTexture(texture_name);
+void SetCenter(Sprite* sprite, float x, float y) {
+    sprite->center = (Vector2){x,y}; 
+}
 
-    sprite->animSpeed = animSpeed;
-    sprite->nbFrames = nbFrames;
+void SetRotation(Sprite* sprite, float rotation) {
+    sprite->rotation = rotation;
+}
 
-    sprite->frameRec.x = x;
-    sprite->frameRec.y = y;
-    sprite->frameRec.height = height;
-    sprite->frameRec.width = width / nbFrames;
+void SetScale(Sprite* sprite, float x, float y) {
+    sprite->scale = (Vector2){x,y};
+}
 
+void SetColor(Sprite* sprite, Color color) {
+    sprite->color = color;
+}
+
+void SetAnimation(Sprite* sprite, int frameCount, int delay) {
+    sprite->isAnimated = true;
+    sprite->animFrameCount = frameCount;
+    sprite->srcRect.width = sprite->srcRect.width / frameCount;
+    sprite->frameWidth = sprite->srcRect.width;
+    sprite->animStart = (Vector2){sprite->srcRect.x,sprite->srcRect.y};
+    sprite->center = (Vector2){sprite->srcRect.width/2, sprite->srcRect.height/2};
+    sprite->animSpeed = delay;
+    sprite->animTimer = 0;
     sprite->currentFrame = 0;
-    sprite->frameCounter = 0;
-
-    sprite->collisionOffset = collisionOffset;
-    sprite->collisionRadius = collisionRadius;
 }
 
-void SpriteInit(Sprite* sprite, char* texture_name, int nbFrames, float animSpeed, Vector2 collisionOffset, float collisionRadius) {
-    SpriteInitRec(sprite, texture_name, nbFrames, animSpeed, collisionOffset, collisionRadius, 0, 0, GetTexture(texture_name).width, GetTexture(texture_name).height);
-}
-
-void LoadBulletSprites() {
-    Sprite sprite;
-
-    SpriteInit(&sprite, "ball_m_black", 1, 1, (Vector2){8,8}, 5);
-    bulletSprites[BALL_M_BLACK] = sprite;
-
-    SpriteInit(&sprite, "anim_test", 16, 60, (Vector2){16,16}, 8);
-    bulletSprites[ANIM_TEST] =sprite;
-
-    SpriteInit(&sprite, "reimu_still", 8, 30, (Vector2){16,24}, 16);
-    bulletSprites[REIMU_STILL] =sprite;
-
-    SpriteInit(&sprite, "reimu_left", 8, 30, (Vector2){16,24}, 16);
-    bulletSprites[REIMU_LEFT] = sprite;
-
-    SpriteInit(&sprite, "reimu_right", 8, 30, (Vector2){16,24}, 16);
-    bulletSprites[REIMU_RIGHT] = sprite;
-
-    SpriteInit(&sprite, "reimu_pink_amulet", 1, 1, (Vector2){8,10}, 8);
-    bulletSprites[REIMU_PINK_AMULET] = sprite;
-
-    SpriteInit(&sprite, "hitbox", 1, 1, CENTER_SPRITE("hitbox"), 3);
-    bulletSprites[HITBOX] = sprite;
-
-    SpriteInit(&sprite, "fairy_s_blue_still", 4, 30, (Vector2){24,16}, 6);
-    bulletSprites[FAIRY_S_BLUE_STILL] = sprite;
-
-    
+void SetCollisionRadius(Sprite* sprite, float radius) {
+    sprite->hitboxRadius = radius;
 }
 
 void UpdateAnimation(Sprite* sprite) {
-    sprite->frameCounter++;
+    sprite->animTimer++;
 
-    if (sprite->frameCounter >= sprite->animSpeed / sprite->nbFrames) {
-
-        sprite->frameCounter = 0;
-        sprite->currentFrame = (sprite->currentFrame + 1) % sprite->nbFrames;
-        sprite->frameRec.x = sprite->currentFrame * sprite->frameRec.width;
+    if(sprite->animTimer >= sprite->animSpeed) {
+        sprite->animTimer=0;
+        sprite->currentFrame = (sprite->currentFrame + 1) % sprite->animFrameCount;
+        sprite->srcRect.x = sprite->animStart.x + sprite->frameWidth * sprite->currentFrame;
     }
 }
 
-Vector2 SpriteCenter(Sprite sprite) {
-    /**
-     * Renvoie le centre d'un sprite
-     */
+void DrawSprite(Sprite sprite, Vector2 pos) {
+    Texture2D tex = textures[sprite.textureID];
 
-    Vector2 location = (Vector2){sprite.frameRec.x, sprite.frameRec.y};
-    return Vector2Add(location, sprite.collisionOffset);
+    Rectangle destRec = {
+        pos.x,
+        pos.y,
+        sprite.srcRect.width * sprite.scale.x,
+        sprite.srcRect.height * sprite.scale.y
+    };
+
+    DrawTexturePro(tex, sprite.srcRect, destRec, sprite.center, sprite.rotation, sprite.color);
 }
-

@@ -1,31 +1,45 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "include/raylib.h"
-#include "include/raymath.h"
-#include "assets.h"
 #include "sprite.h"
 #include "globals.h"
 
-#define INVINSIBILITY_DURATION 100
+typedef struct {
+    Sprite sprite;
 
-typedef struct Player {
-  Vector2 location; //Coin en haut a gauche pour affichage du sprite
-  Vector2 pos; //Centre pour la collision
-  float speed; 
-  float focusSpeed;
-  int hp;
-  int nbBombs;
+    Vector2 pos;
+    float speed;
+    float focusSpeed;
 
-  Sprite sprite;
-  int invisFrames; //nombre de frames d'invinsibilité avant que le joueur ne puisse prendre des dégâts
+    int nbLife;
+    int life;
+    int nbBombs;
+    int bomb;
 
+    int playerType;
 } Player;
 
-void PlayerInit(Player *p, Vector2 pos, float speed, float focusSpeed, int hp, Sprite sprite);
-void UpdatePlayer(Player *p);
-int playerIsColliding(Player *p);
-int damagePlayer(Player *p, int damage); 
-void showHitbox(Player *p);
+enum {
+    REIMU_A,
+    REIMU_B,
+    MARISA_A,
+    MARISA_B
+};
+
+enum {
+    REIMU,
+    MARISA
+};
+
+extern Player player;
+extern Sprite playerSprites[2];
+extern Player characters[4];
+
+void Load_PlayerSprites();
+void Load_Players();
+void InitPlayer(int playerType);
+void UpdatePlayer();
+void DrawPlayer();
+void UpdateAnimationPlayer();
 
 #endif
