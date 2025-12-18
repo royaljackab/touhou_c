@@ -27,8 +27,13 @@ enum {
 };
 
 enum {
-    REIMU,
-    MARISA
+    REIMU_IDLE,
+    REIMU_LEFT,
+    REIMU_RIGHT,
+
+    MARISA_IDLE,
+    MARISA_LEFT,
+    MARISA_RIGHT
 };
 
 extern Player player;

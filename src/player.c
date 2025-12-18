@@ -6,15 +6,20 @@ Sprite playerSprites[2];
 Player characters[4];
 
 void Load_PlayerSprites() {
-    SetTexture(&playerSprites[REIMU], REIMU_IDLE);
-    SetSourceRect(&playerSprites[REIMU], 0,0,256,48);
-    SetAnimation(&playerSprites[REIMU], 8, 3);
-    SetCollisionRadius(&playerSprites[REIMU], 5);
+    SetTexture(&playerSprites[REIMU_IDLE], REIMU_SPRITESHEET);
+    SetSourceRect(&playerSprites[REIMU_IDLE], 0,0,256,48);
+    SetAnimation(&playerSprites[REIMU_IDLE], 8, 3);
+    SetCollisionRadius(&playerSprites[REIMU_IDLE], 5);
+
+    SetTexture(&playerSprites[REIMU_LEFT], REIMU_SPRITESHEET);
+    SetSourceRect(&playerSprites[REIMU_LEFT], 0,48,256,48);
+    SetAnimation(&playerSprites[REIMU_LEFT], 8, 3);
+    SetCollisionRadius(&playerSprites[REIMU_LEFT], 5);
 }
 
 void Load_Players() {
     characters[REIMU_A] = (Player){
-        playerSprites[REIMU],
+        playerSprites[REIMU_IDLE],
         (Vector2){300,800},
         7,
         5,
