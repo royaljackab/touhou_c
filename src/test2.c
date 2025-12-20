@@ -21,7 +21,6 @@ void Initialize() {
 
 
     ObjMove_SetPosition(bossID, -20, -20);
-  
 } 
 
 void MainLoop() {

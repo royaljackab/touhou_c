@@ -104,6 +104,38 @@ void ObjMove_SetForce(ObjID id, float x, float y) {
     objects[id].force = (Vector2){x,y};
 }
 
+void ObjLaser_SetLength(ObjID id, float length) {
+    if(id==ID_INVALID) return;
+    objects[id].laserLength = length;
+}
+
+void ObjLaser_SetMaxWidth(ObjID id, float maxWidth) {
+    if(id==ID_INVALID) return;
+    objects[id].laserMaxWidth = maxWidth;
+}
+
+void ObjLaser_SetTimers(ObjID id, int warning, int growing, int duration) {
+    if(id==ID_INVALID) return;
+    if (warning != NO_CHANGE) objects[id].warningTimer = warning;
+    if (growing != NO_CHANGE) objects[id].growingTimer = growing;
+    if (duration != NO_CHANGE) objects[id].laserDuration = duration;
+}
+
+void ObjLaser_SetIntersectionWidth(ObjID id, int intersectionWidth) {
+    if(id==ID_INVALID) return;
+    objects[id].intersectionWidth = intersectionWidth;
+}
+
+void ObjLaser_SetInvalidLength(ObjID id, int ratioBase, int ratioTip) {
+    if(id==ID_INVALID) return;
+    objects[id].invalidLengthBase = ratioBase;
+    objects[id].invalidLengthTip = ratioTip;
+}   
+
+void ObjLaser_SetGrowingTime(ObjID id, int growing) {
+    ObjLaser_SetTimers(id, NO_CHANGE, growing, NO_CHANGE);
+}
+
 void ObjEnemy_SetLife(ObjID id, float hp) {
     if(id==ID_INVALID) return;
     objects[id].maxLife = hp;
@@ -180,6 +212,29 @@ void UpdateObjects() {
         float rad = objects[i].angle * DEG2RAD;
         Vector2 velocity = Vector2Scale((Vector2){cosf(rad), sinf(rad)}, objects[i].speed);
         objects[i].pos = Vector2Add(objects[i].pos, velocity);
+
+        if(objects[i].type == OBJ_ENEMY_LASER || objects[i].type == OBJ_PLAYER_LASER) {
+            int warning = objects[i].warningTimer;
+            int growing = objects[i].growingTimer;
+            int duration = objects[i].laserDuration;
+
+            if(objects[i].timer < warning) {
+                objects[i].laserWidth = 2;
+                objects[i].laserState = 0;
+            }
+            else if(objects[i].timer < growing + warning) {
+                objects[i].laserWidth += objects[i].laserMaxWidth / objects[i].growingTimer;
+                objects[i].laserState = 1;
+            }
+            else if(objects[i].timer < growing + warning + duration) {
+                objects[i].laserWidth = objects[i].laserMaxWidth;
+                objects[i].laserState = 1;
+            }
+            else {
+                objects[i].laserWidth -= objects[i].laserMaxWidth / objects[i].growingTimer;
+                if(objects[i].laserWidth <= 0) objects[i].active = false;
+            }
+        }
     }
 }
 

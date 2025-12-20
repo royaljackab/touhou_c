@@ -5,7 +5,9 @@
 
 typedef enum {
     BALL_M_BLACK,
-    ANIM_TEST
+    ANIM_TEST,
+    REIMU_PINK_AMULET,
+    RED_LASER
 } BulletGraphic;
 
 extern Sprite bulletSprites[MAX_TEXTURES];
