@@ -3,6 +3,7 @@
 
 #include "sprite.h"
 #include "globals.h"
+#include "bullet_shot.h"
 
 typedef struct {
     Sprite sprite;
@@ -33,11 +34,13 @@ enum {
 
     MARISA_IDLE,
     MARISA_LEFT,
-    MARISA_RIGHT
+    MARISA_RIGHT,
+
+    HITBOX
 };
 
 extern Player player;
-extern Sprite playerSprites[2];
+extern Sprite playerSprites[10];
 extern Player characters[4];
 
 void Load_PlayerSprites();
