@@ -42,7 +42,7 @@ void MainLoop() {
 
     if(timer % 30 == 0 && timer > 120) {
         int nbBull = 50;
-        float angleT=0;
+        float angleT=GetRandomValue(0,360);
 
         for (int i=0; i<nbBull; i++) {
             ObjID b1 = CreateShot(bossX, bossY, 8, angleT, BALL_M_BLACK, 0);
@@ -61,10 +61,18 @@ void MainLoop() {
             angleT += 360.0/nbBull;
         }
     }
+    if (timer > 120 && timer % 120 == 0) {
+        int nbLaser = 6;
+        float angleT=GetRandomValue(0,360);
+
+        for (int i=0; i<nbLaser; i++) {
+            ObjID laser = CreateLaser(bossX, bossY, angleT, 1000, 20, 50, RED_LASER, 30);
+            ObjMove_AddPattern(laser, 0, NO_CHANGE, NO_CHANGE, NO_CHANGE, NO_CHANGE, 0.5);
+            angleT += 360.0/nbLaser;
+        }
+    }
     if(timer>=120) {
         objects[bossID].pos.x = cos(timer/50.0) * 100 + 360;
         objects[bossID].pos.y = sin(timer/50.0) * 50 + 200;
     }
-
-
 }
