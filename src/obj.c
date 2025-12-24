@@ -96,7 +96,14 @@ void ObjMove_SetDestAtSpeed(ObjID id, float x, float y, float speed) {
     objects[id].destPos = (Vector2){x,y};
 
     objects[id].speed = speed;
-    objects[id].angle = atanf((y - objects[id].pos.y)/(x - objects[id].pos.x)) * (180.0f/PI);
+    objects[id].angle = atan2f(y - objects[id].pos.y,x - objects[id].pos.x) * (180.0f/PI);
+}
+
+void ObjMove_SetDestAtFrame(ObjID id, float x, float y, int nbFrames) {
+    if(id==ID_INVALID) return;
+    float distance = Vector2Distance(objects[id].pos, (Vector2){x,y});
+    float speed = distance / nbFrames;
+    ObjMove_SetDestAtSpeed(id, x, y, speed);
 }
 
 void ObjMove_SetForce(ObjID id, float x, float y) {
@@ -159,17 +166,6 @@ void UpdateObjects() {
         
         objects[i].timer++;
 
-        if(objects[i].movingToDest) {
-            float distRemaining = Vector2Distance(objects[i].pos, objects[i].destPos);
-
-            if (distRemaining <= objects[i].speed) {
-                objects[i].pos = objects[i].destPos;
-                objects[i].speed = 0;
-                objects[i].movingToDest = false;
-                continue;
-            }
-        }
-
         //Gestion patterns
         if(objects[i].patternCount > 0) {
             MovePattern* currPat = objects[i].patterns;
@@ -178,7 +174,6 @@ void UpdateObjects() {
             if (currPat->delay <= 0) {
                 ApplyMoveParams(&objects[i], currPat);
                 ShiftPatterns(&objects[i]);
-
             }
         }
 
@@ -208,11 +203,23 @@ void UpdateObjects() {
             objects[i].angle = atan2f(vy,vx) * RAD2DEG;
         }
 
+        if(objects[i].movingToDest) {
+            float distRemaining = Vector2Distance(objects[i].pos, objects[i].destPos);
+
+            if (distRemaining <= objects[i].speed) {
+                objects[i].pos = objects[i].destPos;
+                objects[i].speed = 0;
+                objects[i].movingToDest = false;
+                continue;
+            }
+        }
+
         //Direction
         float rad = objects[i].angle * DEG2RAD;
         Vector2 velocity = Vector2Scale((Vector2){cosf(rad), sinf(rad)}, objects[i].speed);
         objects[i].pos = Vector2Add(objects[i].pos, velocity);
 
+        //Laser
         if(objects[i].type == OBJ_ENEMY_LASER || objects[i].type == OBJ_PLAYER_LASER) {
             int warning = objects[i].warningTimer;
             int growing = objects[i].growingTimer;
@@ -290,6 +297,27 @@ void DrawObjects() {
     for(int i=0; i<MAX_OBJECTS; i++) {
         if(objects[i].active && objects[i].timer >= objects[i].delay && objects[i].pos.x >= PANEL_LEFT && objects[i].pos.x <= PANEL_LEFT + PANEL_WIDTH 
             && objects[i].pos.y >= PANEL_UP && objects[i].pos.y <= PANEL_UP + PANEL_HEIGHT) {
+
+            //Laser
+            if (objects[i].type == OBJ_ENEMY_LASER || objects[i].type == OBJ_PLAYER_LASER) {
+                int textureID = objects[i].sprite.textureID;
+
+                Rectangle source = objects[i].sprite.srcRect;
+
+                Rectangle dest = {
+                    objects[i].pos.x,
+                    objects[i].pos.y,
+                    objects[i].laserWidth,
+                    objects[i].laserLength
+                };
+
+                Vector2 origin = {objects[i].laserWidth/2.0, 0};
+
+                DrawTexturePro(textures[textureID], source, dest, origin, objects[i].angle, objects[i].sprite.color);
+                continue;
+            }
+            
+            if(objects[i].type != OBJ_BOSS) objects[i].sprite.rotation = objects[i].angle;
             DrawSprite(objects[i].sprite, objects[i].pos);
         }
     }

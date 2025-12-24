@@ -91,6 +91,7 @@ void ObjMove_SetPosition(ObjID id, float x, float y);
 void ObjMove_SetSpeed(ObjID id, float speed);
 void ObjMove_SetAngle(ObjID id, float angle);
 void ObjMove_SetDestAtSpeed(ObjID id, float x, float y, float speed);
+void ObjMove_SetDestAtFrame(ObjID id, float x, float y, int nbFrames);
 void ObjMove_SetAccel(ObjID id, float acc, float maxSpd);
 void ObjMove_AddPattern(ObjID id, int frameDelay, float speed, float angle, float accel, float maxSpd, float angVel);
 void ObjMove_SetForce(ObjID id, float x, float y);
