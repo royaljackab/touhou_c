@@ -7,7 +7,7 @@ static ObjID bossID;
 static int timer=0;
 
 void fireRing() {
-    float angleT = GetRandomValue(0,360);
+    float angleT = GetRandomValue(0,360); 
     for(int i=0; i<48; i++) {
         CreateShot(bossX, bossY, 4.5, angleT, BALL_M_BLACK, 0);
         angleT += 360.0/48;

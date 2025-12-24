@@ -69,7 +69,7 @@ typedef struct {
     float intersectionWidth;
     float invalidLengthBase;
     float invalidLengthTip;
-    int laserState; // 0:warning 1:actif 2:inactif
+    int laserState; // 0:warning 1:actif 2:inactif //peut etre inutile...
     int warningTimer;
     int growingTimer;
     int laserDuration;
