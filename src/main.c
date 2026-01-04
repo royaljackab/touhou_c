@@ -1,4 +1,5 @@
-#include "moonlight.h"
+#include "test_task.h"
+#include <stddef.h>
 
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Test");
@@ -9,10 +10,12 @@ int main() {
     Load_Players();
     InitPlayer(REIMU_A);
     AssetsLoad();
-    moonlight_init();
+    initialize();
+
+    void* moonlightState = NULL;
 
     while(!WindowShouldClose()) {
-        moonlight();
+        moonlight_task(&moonlightState);
         UpdateObjects();
 
         BeginDrawing();

@@ -3,9 +3,8 @@
 #define bossX objects[bossID].pos.x
 #define bossY objects[bossID].pos.y
 
-ObjID bossID;
-Object boss;
-int timer=0;
+static ObjID bossID;
+static int timer=0;
 
 int objCount=0;
 float angleT=0;
