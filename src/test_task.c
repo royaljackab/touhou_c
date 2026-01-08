@@ -19,81 +19,44 @@ void initialize() {
     ObjMove_SetPosition(bossID, -20, -20);
 } 
 
-
-static void fireRing(Task_contParam) {
-    Task_beginContext;
-        int i;
-    Task_endContext(ctx);
-
-    Task_begin(ctx);
-
+Define_Static_Task(fireRing, NO_PARAMS);
     float angleT = GetRandomValue(0,360);
-    for (ctx->i = 0; ctx->i < 48; ctx->i++) {
+    for (int i = 0; i < 48; i++) {
         CreateShot(bossX,bossY, 4.5, angleT, BALL_M_BLACK, 0);
         angleT += 360.0/48;
     }
+End_Task;
 
-    Task_finishV;
-}
-
-static void fireLaser(Task_contParam, int dir) {
-    Task_beginContext;
-    Task_endContext(ctx);
-
-    Task_begin(ctx);
-
+Define_Static_Task(fireLaser, PARAMS(int dir));
     ObjID obj = CreateLaser(bossX,bossY,180 + 105*dir,1000,15,120, RED_LASER, 30);
     ObjMove_AddPattern(obj, 30, NO_CHANGE, NO_CHANGE, NO_CHANGE, NO_CHANGE, 0.5 * dir);
+End_Task;
 
-    Task_finishV;
-}
-
-static void movement(Task_contParam) {
-    Task_beginContext;
-    Task_endContext(move);
-
-    Task_begin(move);
-
-    while(objects[bossID].active == true) {
+Define_Static_Task(movement, NO_PARAMS);
+    while(true) {
         ObjMove_SetDestAtFrame(bossID, GetRandomValue( 30, 500), 200 + GetRandomValue(-20,50), 60);
-        wait(move, 360);
+        wait(360);
     }
+End_Task;
 
-    Task_finishV;
-}
-
-void moonlight_task(Task_contParam) {
-    Task_beginContext;
-        int count;
-        void *ringState;
-        void *moveState;
-        void *laserState;
-    Task_endContext(moon);
-    
-    Task_begin(moon);
-
-    if (moon->Task_line == 0) {moon->ringState = NULL; moon->moveState = NULL; moon->laserState = NULL;}
-    moon->count = 0;
+Define_Task(moonlight_task, NO_PARAMS, int count; void *ringState; void *laserState; void *moveState; );
+    ctx->ringState = NULL; ctx->moveState = NULL; ctx->laserState = NULL;
+    ctx->count = 0;
     ObjMove_SetDestAtFrame(bossID, 300, 200, 60);
-    wait(moon, 80);
+    wait(80);
 
     while(1) {
 
-        if (moon->count == 0) {
-            movement(&moon->moveState);
+        movement(&ctx->moveState);
+        if(ctx->count % 10 == 0) {
+            fireRing(&ctx->ringState);
         }
-        if(moon->count % 10 == 0) {
-            fireRing(&moon->ringState);
-        }
-        if(moon->count % 360 == 90) {
-            fireLaser(&moon->laserState, 1);
-            fireLaser(&moon->laserState, -1);
+        if(ctx->count % 360 == 90) {
+            fireLaser(&ctx->laserState, 1);
+            fireLaser(&ctx->laserState, -1);
         }
 
-        moon->count++;
+        ctx->count++;
         yield;
     }
-
-    Task_finishV;
-}
-
+End_Task;
