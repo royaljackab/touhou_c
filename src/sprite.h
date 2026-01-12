@@ -27,15 +27,15 @@ typedef struct {
     float hitboxRadius;
 } Sprite;
 
-void SetTexture(Sprite* sprite, int textureID);
-void SetSourceRect(Sprite* sprite, float x, float y, float width, float height);
-void SetCenter(Sprite* sprite, float x, float y);
-void SetRotation(Sprite* sprite, float rotation);
-void SetScale(Sprite* sprite, float x, float y);
-void SetColor(Sprite* sprite, Color color);
-void SetAnimation(Sprite* sprite, int frameCount, int delay);
+void SetTexture        (Sprite* sprite, int textureID);
+void SetSourceRect     (Sprite* sprite, float x, float y, float width, float height);
+void SetCenter         (Sprite* sprite, float x, float y);
+void SetRotation       (Sprite* sprite, float rotation);
+void SetScale          (Sprite* sprite, float x, float y);
+void SetColor          (Sprite* sprite, Color color);
+void SetAnimation      (Sprite* sprite, int frameCount, int delay);
 void SetCollisionRadius(Sprite* sprite, float radius);
-void UpdateAnimation(Sprite* sprite);
-void DrawSprite(Sprite sprite, Vector2 pos);
+void UpdateAnimation   (Sprite* sprite);
+void DrawSprite        (Sprite sprite, Vector2 pos);
 
 #endif

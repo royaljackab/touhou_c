@@ -17,6 +17,7 @@ int main() {
     while(!WindowShouldClose()) {
         moonlight_task(&moonlightState);
         UpdateObjects();
+        UpdateCollisions();
 
         BeginDrawing();
             ClearBackground(BLACK);
@@ -26,7 +27,6 @@ int main() {
             UpdatePlayer();
             UpdateAnimations();
             UpdateAnimationPlayer();
-            UpdateCollisions();
         EndDrawing();
     }
 
