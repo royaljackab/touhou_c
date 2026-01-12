@@ -3,5 +3,6 @@
         "assets.h": "c",
         "raylib.h": "c"
     },
-    "cmake.sourceDirectory": "C:/Users/jacka/Bureau/Code/Projet/raylib/src/include"
+    "cmake.sourceDirectory": "C:/Users/jacka/Bureau/Code/Projet/raylib/src/include",
+    "C_Cpp.default.compilerPath": "C:/msys64/ucrt64/bin/gcc.exe"
 }
