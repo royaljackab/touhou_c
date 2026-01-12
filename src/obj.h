@@ -79,39 +79,41 @@ typedef struct {
     MovePattern patterns[MAX_PATTERNS];
     int patternCount;
 
+    // Flags
+    int disappearOnHit;
 } Object;
 
 extern Object objects[MAX_OBJECTS];
 
-ObjID Obj_Create(ObjType type);
-void Obj_Delete(ObjID* id);
+ObjID Obj_Create (ObjType type);
+void Obj_Delete  (ObjID* id);
 void Obj_SetDelay(ObjID id, int delay);
 
-void ObjMove_SetPosition(ObjID id, float x, float y);
-void ObjMove_SetSpeed(ObjID id, float speed);
-void ObjMove_SetAngle(ObjID id, float angle);
+void ObjMove_SetPosition   (ObjID id, float x, float y);
+void ObjMove_SetSpeed      (ObjID id, float speed);
+void ObjMove_SetAngle      (ObjID id, float angle);
 void ObjMove_SetDestAtSpeed(ObjID id, float x, float y, float speed);
 void ObjMove_SetDestAtFrame(ObjID id, float x, float y, int nbFrames);
-void ObjMove_SetAccel(ObjID id, float acc, float maxSpd);
-void ObjMove_AddPattern(ObjID id, int frameDelay, float speed, float angle, float accel, float maxSpd, float angVel);
-void ObjMove_SetForce(ObjID id, float x, float y);
+void ObjMove_SetAccel      (ObjID id, float acc, float maxSpd);
+void ObjMove_AddPattern    (ObjID id, int frameDelay, float speed, float angle, float accel, float maxSpd, float angVel);
+void ObjMove_SetForce      (ObjID id, float x, float y);
 
-void ObjLaser_SetLength(ObjID id, float length);
-void ObjLaser_SetMaxWidth(ObjID id, float maxWidth);
-void ObjLaser_SetTimers(ObjID id, int warning, int growing, int duration);
+void ObjLaser_SetLength           (ObjID id, float length);
+void ObjLaser_SetMaxWidth         (ObjID id, float maxWidth);
+void ObjLaser_SetTimers           (ObjID id, int warning, int growing, int duration);
 void ObjLaser_SetIntersectionWidth(ObjID id, int intersectionWidth);
-void ObjLaser_SetInvalidLength(ObjID id, int ratioBase, int ratioTip);
-void ObjLaser_SetGrowingTime(ObjID id, int growing);
+void ObjLaser_SetInvalidLength    (ObjID id, int ratioBase, int ratioTip);
+void ObjLaser_SetGrowingTime      (ObjID id, int growing);
 
 void UpdateObjects();
 
-void Obj_SetTexture(ObjID id, int textureID);
-void ObjSprite2D_SetSourceRect(ObjID id, float x, float y, float width, float height);
-void ObjSprite2D_SetCenter(ObjID id, float x, float y);
-void ObjSprite2D_SetRotation(ObjID id, float rotation);
-void ObjSprite2D_SetScale(ObjID id, float x, float y);
-void ObjSprite2D_SetColor(ObjID id, Color color);
-void ObjSprite2D_SetAnimation(ObjID id, int frameCount, int delay);
+void Obj_SetTexture                (ObjID id, int textureID);
+void ObjSprite2D_SetSourceRect     (ObjID id, float x, float y, float width, float height);
+void ObjSprite2D_SetCenter         (ObjID id, float x, float y);
+void ObjSprite2D_SetRotation       (ObjID id, float rotation);
+void ObjSprite2D_SetScale          (ObjID id, float x, float y);
+void ObjSprite2D_SetColor          (ObjID id, Color color);
+void ObjSprite2D_SetAnimation      (ObjID id, int frameCount, int delay);
 void ObjSprite2D_SetCollisionToShot(ObjID id, float radius);
 
 void UpdateAnimations();

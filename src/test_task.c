@@ -15,7 +15,6 @@ void initialize() {
     ObjSprite2D_SetAnimation(bossID, 8, 5);
     ObjSprite2D_SetCollisionToShot(bossID, 20);
 
-
     ObjMove_SetPosition(bossID, -20, -20);
 } 
 

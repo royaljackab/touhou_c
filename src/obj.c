@@ -1,4 +1,7 @@
 #include "obj.h"
+#include <stdio.h>
+
+#define o objects[i]
 
 Object objects[MAX_OBJECTS];
 
@@ -20,6 +23,7 @@ ObjID Obj_Create(ObjType type) {
             objects[i].maxSpd = NO_LIMIT;
             objects[i].patternCount = 0;
             objects[i].force = (Vector2){0,0};
+            objects[i].disappearOnHit = 1;
             return i; //i devient ObjID
         }
     }
@@ -319,23 +323,29 @@ void DrawObjects() {
             
             if(objects[i].type != OBJ_BOSS) objects[i].sprite.rotation = objects[i].angle;
             DrawSprite(objects[i].sprite, objects[i].pos);
+            DrawCircle(o.pos.x, o.pos.y, o.sprite.hitboxRadius, RED);
         }
     }
 }
 
 void UpdateCollisions() {
     for(int j=0; j<MAX_OBJECTS; j++) {
+        if (!objects[j].active) continue;
 
-        if(!objects[j].active || (objects[j].type != OBJ_ENEMY  && objects[j].type != OBJ_BOSS)) continue;
-    
-        for(int i=0; i<MAX_OBJECTS; i++) {
+        switch(objects[j].type) {
+            case OBJ_ENEMY:
+            case OBJ_BOSS:
+                for (int i=0; i<MAX_OBJECTS; i++) {     
+                    if (!objects[i].active) continue;              
+                    if (objects[i].type != OBJ_PLAYER_SHOT && objects[i].type != OBJ_PLAYER_LASER) continue;
 
-            if(!objects[i].active || objects[i].type != OBJ_PLAYER_SHOT) continue;
-
-            if (CheckCollisionCircles(objects[j].sprite.center, objects[j].sprite.hitboxRadius, objects[i].sprite.center, objects[i].sprite.hitboxRadius)) {
-                ObjEnemy_AddLife(j, objects[i].damage);
-                objects[i].active=false;
-            }
+                    if (CheckCollisionCircles(objects[i].pos, objects[i].sprite.hitboxRadius, objects[j].pos, objects[j].sprite.hitboxRadius) == true) {
+                        objects[j].life -= objects[i].damage;
+                        if (objects[i].disappearOnHit == 1) objects[i].active = false;
+                    }
+                }
+                break;
+            default: break;
         }
     }
 }
