@@ -147,6 +147,12 @@ void ObjLaser_SetGrowingTime(ObjID id, int growing) {
     ObjLaser_SetTimers(id, NO_CHANGE, growing, NO_CHANGE);
 }
 
+void ObjLoose_SetLengthWidth(ObjID id, float length, float width) {
+    if(id==ID_INVALID) return;
+    objects[id].looseTargetLength = length;
+    objects[id].looseWidth = width;
+}
+
 void ObjEnemy_SetLife(ObjID id, float hp) {
     if(id==ID_INVALID) return;
     objects[id].maxLife = hp;
@@ -223,7 +229,7 @@ void UpdateObjects() {
         Vector2 velocity = Vector2Scale((Vector2){cosf(rad), sinf(rad)}, objects[i].speed);
         objects[i].pos = Vector2Add(objects[i].pos, velocity);
 
-        //Laser
+        //Straight laser
         if(objects[i].type == OBJ_ENEMY_LASER || objects[i].type == OBJ_PLAYER_LASER) {
             int warning = objects[i].warningTimer;
             int growing = objects[i].growingTimer;
@@ -244,6 +250,32 @@ void UpdateObjects() {
             else {
                 objects[i].laserWidth -= objects[i].laserMaxWidth / objects[i].growingTimer;
                 if(objects[i].laserWidth <= 0) objects[i].active = false;
+            }
+        }
+
+        //loose laser
+        if(objects[i].type == OBJ_LOOSE_LASER) {
+            // shifting
+            for (int k = MAX_LOOSE_NODES - 1; k > 0; k--) {
+                objects[i].looseNodes[k] = objects[i].looseNodes[k-1];
+            }
+            // ajout de la position actuelle en tête
+            objects[i].looseNodes[0] = objects[i].pos;
+
+            if (objects[i].looseNodeCount < MAX_LOOSE_NODES) {
+                objects[i].looseNodeCount++;
+            }
+
+            float currentLen = 0;
+            for (int k = 0; k < objects[i].looseNodeCount - 1; k++) {
+                float dist = Vector2Distance(objects[i].looseNodes[k], objects[i].looseNodes[k+1]);
+                currentLen += dist;
+                
+                // Si on dépasse la longueur cible, on coupe ici
+                if (currentLen > objects[i].looseTargetLength) {
+                    objects[i].looseNodeCount = k + 2; // On garde ce noeud comme dernier point
+                    break;
+                }
             }
         }
     }
@@ -302,7 +334,7 @@ void DrawObjects() {
         if(objects[i].active && objects[i].timer >= objects[i].delay && objects[i].pos.x >= PANEL_LEFT && objects[i].pos.x <= PANEL_LEFT + PANEL_WIDTH 
             && objects[i].pos.y >= PANEL_UP && objects[i].pos.y <= PANEL_UP + PANEL_HEIGHT) {
 
-            //Laser
+            //straight laser
             if (objects[i].type == OBJ_ENEMY_LASER || objects[i].type == OBJ_PLAYER_LASER) {
                 int textureID = objects[i].sprite.textureID;
 
@@ -320,6 +352,51 @@ void DrawObjects() {
                 DrawTexturePro(textures[textureID], source, dest, origin, objects[i].angle, objects[i].sprite.color);
                 continue;
             }
+
+            // Affichage LOOSE LASER
+            if (objects[i].type == OBJ_LOOSE_LASER) {
+                if (objects[i].looseNodeCount < 2) continue;
+
+                // Préparation des sommets pour DrawTriangleStrip
+                // On a besoin de 2 sommets par noeud (gauche et droite)
+                int count = objects[i].looseNodeCount;
+                // Raylib permet de dessiner un strip. Nous allons calculer les points manuellement.
+                
+                // Note: Pour une implémentation pure Raylib sans rlgl, on peut utiliser une boucle de DrawTriangle
+                // ou générer un tableau pour DrawTriangleStrip.
+                
+                float w = objects[i].looseWidth / 2.0f;
+                Color col = objects[i].sprite.color;
+
+                // On parcourt les segments
+                for (int k = 0; k < count - 1; k++) {
+                    Vector2 p1 = objects[i].looseNodes[k];
+                    Vector2 p2 = objects[i].looseNodes[k+1];
+                    
+                    // Calcul de la normale au segment
+                    Vector2 diff = Vector2Subtract(p1, p2);
+                    Vector2 normal = Vector2Normalize((Vector2){ -diff.y, diff.x }); // Perpendiculaire
+                    
+                    // Points du quadrilatère (P1 Left, P1 Right, P2 Left, P2 Right)
+                    Vector2 p1L = Vector2Add(p1, Vector2Scale(normal, w));
+                    Vector2 p1R = Vector2Subtract(p1, Vector2Scale(normal, w));
+                    Vector2 p2L = Vector2Add(p2, Vector2Scale(normal, w));
+                    Vector2 p2R = Vector2Subtract(p2, Vector2Scale(normal, w));
+
+                    // Dessin de 2 triangles pour former le segment
+                    // Attention à l'ordre des sommets pour le Culling
+                    DrawTriangle(p1L, p2L, p2R, col);
+                    DrawTriangle(p1L, p2R, p1R, col);
+                    
+                    // Optionnel: Ajouter des cercles aux jointures pour lisser les angles
+                    DrawCircleV(p1, w, col);
+                }
+                // Cercle à la fin
+                DrawCircleV(objects[i].looseNodes[count-1], w, col);
+                
+                continue; 
+            }
+
             
             if(objects[i].type != OBJ_BOSS) objects[i].sprite.rotation = objects[i].angle;
             DrawSprite(objects[i].sprite, objects[i].pos);

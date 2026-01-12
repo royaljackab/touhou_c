@@ -36,3 +36,24 @@ ObjID CreateLaser(float x, float y, float angle, float length, float maxWidth, i
 
     return id;
 }
+
+ObjID CreateLooseLaser(float x, float y, float speed, float angle, float length, float width, int graphic, int delay) {
+    int id = Obj_Create(OBJ_LOOSE_LASER);
+    if (id == ID_INVALID) return ID_INVALID;
+
+    ObjMove_SetPosition(id, x, y);
+    ObjMove_SetSpeed(id, speed);
+    ObjMove_SetAngle(id, angle);
+    
+    objects[id].looseTargetLength = length;
+    objects[id].looseWidth = width;
+    
+    // Initialise le premier noeud à la position de départ pour éviter un glitch à la frame 1
+    objects[id].looseNodes[0] = (Vector2){x, y};
+    objects[id].looseNodeCount = 1;
+
+    ObjSprite2D_SetBulletSprite(id, graphic);
+    Obj_SetDelay(id, delay);
+
+    return id;
+}

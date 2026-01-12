@@ -1,8 +1,8 @@
 #ifndef ASSETS_H
 #define ASSETS_H
 
-#include "include/raylib.h"
-#include "include/raymath.h"
+#include "raylib.h"
+#include "raymath.h"
 
 
 

@@ -10,6 +10,7 @@
 #define NO_CHANGE -9999999
 #define NO_LIMIT 9999999
 #define MAX_PATTERNS 8
+#define MAX_LOOSE_NODES 200
 
 #define MAX_OBJECTS 10000
 
@@ -24,7 +25,8 @@ typedef enum {
     OBJ_ENEMY_SHOT,
     OBJ_PLAYER_SHOT,
     OBJ_ENEMY_LASER,
-    OBJ_PLAYER_LASER
+    OBJ_PLAYER_LASER,
+    OBJ_LOOSE_LASER
 } ObjType;
 
 typedef struct {
@@ -62,17 +64,23 @@ typedef struct {
     int delay;
     int timer;
 
-    //Laser
+    //straight Laser
     float laserLength;
-    float laserWidth;
-    float laserMaxWidth;
-    float intersectionWidth;
+    float laserWidth;                 //taille actuelle affichée
+    float laserMaxWidth;              //taille quand le laser s'élargit au max
+    float intersectionWidth;          // largeur hitbox
     float invalidLengthBase;
     float invalidLengthTip;
-    int laserState; // 0:warning 1:actif 2:inactif //peut etre inutile...
+    int laserState;                   // 0:warning 1:actif 2:inactif //peut etre inutile...
     int warningTimer;
     int growingTimer;
     int laserDuration;
+
+    //loose laser
+    Vector2 looseNodes[MAX_LOOSE_NODES]; // Historique des positions
+    int looseNodeCount;                  // Nombre actuel de noeuds
+    float looseTargetLength;             // Longueur visée (le laser grandit jusqu'à cette taille)
+    float looseWidth;                    // Épaisseur du laser
 
 
     // File de patterns
@@ -104,6 +112,8 @@ void ObjLaser_SetTimers           (ObjID id, int warning, int growing, int durat
 void ObjLaser_SetIntersectionWidth(ObjID id, int intersectionWidth);
 void ObjLaser_SetInvalidLength    (ObjID id, int ratioBase, int ratioTip);
 void ObjLaser_SetGrowingTime      (ObjID id, int growing);
+
+void ObjLoose_SetLengthWidth(ObjID id, float length, float width);
 
 void UpdateObjects();
 

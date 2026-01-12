@@ -27,8 +27,13 @@ Define_Static_Task(fireRing, NO_PARAMS);
 End_Task;
 
 Define_Static_Task(fireLaser, PARAMS(int dir));
-    ObjID obj = CreateLaser(bossX,bossY,180 + 105*dir,1000,15,120, RED_LASER, 30);
+    ObjID obj = CreateLaser(bossX,bossY,180 + 105*dir,400,15,120, BALL_M_BLACK, 30);
     ObjMove_AddPattern(obj, 30, NO_CHANGE, NO_CHANGE, NO_CHANGE, NO_CHANGE, 0.5 * dir);
+End_Task;
+
+Define_Static_Task(loser, NO_PARAMS);
+    ObjID obj = CreateLooseLaser(bossX,bossY,3,45,200,10,BALL_M_BLACK,0);
+    ObjMove_AddPattern(obj, 30, NO_CHANGE, NO_CHANGE, NO_CHANGE, NO_CHANGE, 3);
 End_Task;
 
 Define_Static_Task(movement, NO_PARAMS);
@@ -38,8 +43,8 @@ Define_Static_Task(movement, NO_PARAMS);
     }
 End_Task;
 
-Define_Task(moonlight_task, NO_PARAMS, int count; void *ringState; void *laserState; void *moveState; );
-    ctx->ringState = NULL; ctx->moveState = NULL; ctx->laserState = NULL;
+Define_Task(moonlight_task, NO_PARAMS, int count; void *ringState; void *laserState; void *moveState; void *loserState;);
+    ctx->ringState = NULL; ctx->moveState = NULL; ctx->laserState = NULL; ctx->loserState = NULL;
     ctx->count = 0;
     ObjMove_SetDestAtFrame(bossID, 300, 200, 60);
     wait(80);
@@ -53,6 +58,7 @@ Define_Task(moonlight_task, NO_PARAMS, int count; void *ringState; void *laserSt
         if(ctx->count % 360 == 90) {
             fireLaser(&ctx->laserState, 1);
             fireLaser(&ctx->laserState, -1);
+            loser(&ctx->loserState);
         }
 
         ctx->count++;
