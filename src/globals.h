@@ -9,4 +9,10 @@
 #define PANEL_HEIGHT 820
 #define DRAW_MARGIN 80
 
+typedef enum{
+    TITLE_SCREEN,
+    STAGE1,
+    MOONLIGHT
+} gameState;
+
 #endif

@@ -2,8 +2,7 @@
 #include "sprite.h"
 #include "include/raylib.h"
 #include "task.h"
-#include "main.h"
-
+#include "globals.h"
 
 // Peut-être ça servira un jour
 typedef struct{
@@ -13,4 +12,4 @@ typedef struct{
 
 void updateMenu(gameState *gameState, int* selection);
 void drawMenu(int selection);
-void menu_task(gameState *gameState);
+void menu(gameState *gameState);

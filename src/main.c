@@ -1,7 +1,6 @@
 #include "test_task.h"
-#include "main.h"
-#include "menu.h"
 #include <stddef.h>
+#include "menu.h"
 
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Test");
@@ -21,7 +20,7 @@ int main() {
     while(!WindowShouldClose()) {
         switch(gameState){
             case TITLE_SCREEN:
-                menu_task(&gameState);
+                menu(&gameState);
             break;
             case MOONLIGHT:
                 moonlight_task(&moonlightState);

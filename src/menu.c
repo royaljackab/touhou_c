@@ -19,11 +19,9 @@ void drawMenu(int selection){
 void updateMenu(gameState *gameState, int* selection){
     if(IsKeyPressed(KEY_DOWN) && *selection < NB_BUTTONS){
         (*selection)++;
-        printf("selection: %d\n", *selection);
     } 
     if(IsKeyPressed(KEY_UP) && *selection > 0){
         (*selection)--;
-        printf("selection: %d\n", *selection);
     }
 
     if(IsKeyDown(KEY_SPACE)){
@@ -40,7 +38,7 @@ void updateMenu(gameState *gameState, int* selection){
     }
 }
 
-void menu_task(gameState *gameState){
+void menu(gameState *gameState){
     static int selection = 0;
     updateMenu(gameState, &selection);
     
