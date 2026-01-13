@@ -1,5 +1,6 @@
 #include "test_task.h"
 #include <stddef.h>
+#include "menu.h"
 
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Test");
@@ -12,22 +13,31 @@ int main() {
     AssetsLoad();
     initialize();
 
+    gameState gameState = TITLE_SCREEN;
+    
     void* moonlightState = NULL;
 
     while(!WindowShouldClose()) {
-        moonlight_task(&moonlightState);
-        UpdateObjects();
-        UpdateCollisions();
+        switch(gameState){
+            case TITLE_SCREEN:
+                menu(&gameState);
+            break;
+            case MOONLIGHT:
+                moonlight_task(&moonlightState);
+                UpdateObjects();
 
-        BeginDrawing();
-            ClearBackground(BLACK);
+                BeginDrawing();
+                    ClearBackground(BLACK);
 
-            DrawObjects();
-            DrawPlayer();
-            UpdatePlayer();
-            UpdateAnimations();
-            UpdateAnimationPlayer();
-        EndDrawing();
+                    DrawObjects();
+                    DrawPlayer();
+                    UpdatePlayer();
+                    UpdateAnimations();
+                    UpdateAnimationPlayer();
+                    UpdateCollisions();
+                EndDrawing();
+            break;
+        }
     }
 
     AssetsUnload();
