@@ -57,6 +57,7 @@ void UpdatePlayer() {
     if(!IsKeyDown(KEY_LEFT_SHIFT)) {
         playerSprites[HITBOX].color.a = Clamp(playerSprites[HITBOX].color.a - 40,0,255);
     }
+
     //Affichage hitbox
     if (playerSprites[HITBOX].color.a > 0) {
         DrawSprite(playerSprites[HITBOX], player.pos);
@@ -66,8 +67,8 @@ void UpdatePlayer() {
     //Tirs
     if(IsKeyDown(KEY_Z)) {
         if(shotTimer==0) {
-            CreateShot(player.pos.x - 7, player.pos.y - 20, 50, 270, REIMU_PINK_AMULET, 0);
-            CreateShot(player.pos.x + 7, player.pos.y - 20, 50, 270, REIMU_PINK_AMULET, 0);
+            CreateShotType(OBJ_PLAYER_SHOT, player.pos.x - 7, player.pos.y - 20, 50, 270, REIMU_PINK_AMULET, 0);
+            CreateShotType(OBJ_PLAYER_SHOT,player.pos.x + 7, player.pos.y - 20, 50, 270, REIMU_PINK_AMULET, 0);
         }
         shotTimer = (shotTimer + 1) % 2;
     }

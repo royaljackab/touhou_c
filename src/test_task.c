@@ -15,7 +15,6 @@ void initialize() {
     ObjSprite2D_SetAnimation(bossID, 8, 5);
     ObjSprite2D_SetCollisionToShot(bossID, 20);
 
-
     ObjMove_SetPosition(bossID, -20, -20);
 } 
 
@@ -33,8 +32,20 @@ Define_Static_Task(fireLaser, PARAMS(int dir));
 End_Task;
 
 Define_Static_Task(loser, NO_PARAMS);
-    ObjID obj = CreateLooseLaser(bossX,bossY,3,45,200,10,BALL_M_BLACK,0);
+    ObjID obj = CreateLooseLaser(bossX,bossY,3,45,200,10,YELLOW,0);
     ObjMove_AddPattern(obj, 30, NO_CHANGE, NO_CHANGE, NO_CHANGE, NO_CHANGE, 3);
+    ObjMove_AddPattern(obj, 60, NO_CHANGE, NO_CHANGE, -5, 0, 0);
+    ObjMove_AddPattern(obj, 120, NO_CHANGE, NO_CHANGE, 5, 7, 0);
+End_Task;
+
+Define_Static_Task(snakeRing, PARAMS(Color color), ObjID obj; int dir;);
+    ctx->dir = 1;
+    ctx->obj = CreateLooseLaser(bossX, bossY, 3, 45, 200, 10, color, 0);
+    while(objects[ctx->obj].active) {
+        ObjMove_AddPattern(ctx->obj,20, NO_CHANGE, NO_CHANGE, NO_CHANGE, NO_CHANGE, ctx->dir * 3);
+        ctx->dir *= -1;
+        yield;
+    }
 End_Task;
 
 Define_Static_Task(movement, NO_PARAMS);
@@ -59,7 +70,7 @@ Define_Task(moonlight_task, NO_PARAMS, int count; void *ringState; void *laserSt
         if(ctx->count % 360 == 90) {
             fireLaser(&ctx->laserState, 1);
             fireLaser(&ctx->laserState, -1);
-            loser(&ctx->loserState);
+            snakeRing(&ctx->loserState, GREEN);
         }
 
         ctx->count++;

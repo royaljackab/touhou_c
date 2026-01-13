@@ -43,11 +43,11 @@ extern Player player;
 extern Sprite playerSprites[10];
 extern Player characters[4];
 
-void Load_PlayerSprites();
-void Load_Players();
-void InitPlayer(int playerType);
-void UpdatePlayer();
-void DrawPlayer();
+void Load_PlayerSprites   ();
+void Load_Players         ();
+void InitPlayer           (int playerType);
+void UpdatePlayer         ();
+void DrawPlayer           ();
 void UpdateAnimationPlayer();
 
 #endif

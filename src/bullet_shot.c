@@ -1,7 +1,7 @@
 #include "bullet_shot.h"
 
-ObjID CreateShot(float x, float y, float speed, float angle, BulletGraphic graphic, int delay) {
-    int id = Obj_Create(OBJ_ENEMY_SHOT);
+ObjID CreateShotType(ObjType type, float x, float y, float speed, float angle, BulletGraphic graphic, int delay) {
+    int id = Obj_Create(type);
 
     ObjMove_SetPosition(id, x, y);
     ObjMove_SetSpeed(id, speed);
@@ -12,6 +12,11 @@ ObjID CreateShot(float x, float y, float speed, float angle, BulletGraphic graph
     Obj_SetDelay(id, delay);
 
     return id;
+}
+
+
+ObjID CreateShot(float x, float y, float speed, float angle, BulletGraphic graphic, int delay) {
+    return CreateShotType(OBJ_ENEMY_SHOT, x, y, speed, angle, graphic, delay);
 }
 
 ObjID CreateLaser(float x, float y, float angle, float length, float maxWidth, int deleteTime, BulletGraphic graphic, int delay) {
@@ -32,7 +37,7 @@ ObjID CreateLaser(float x, float y, float angle, float length, float maxWidth, i
     return id;
 }
 
-ObjID CreateLooseLaser(float x, float y, float speed, float angle, float length, float width, int graphic, int delay) {
+ObjID CreateLooseLaser(float x, float y, float speed, float angle, float length, float width, Color color, int delay) {
     int id = Obj_Create(OBJ_LOOSE_LASER);
     if (id == ID_INVALID) return ID_INVALID;
 
@@ -47,7 +52,7 @@ ObjID CreateLooseLaser(float x, float y, float speed, float angle, float length,
     objects[id].looseNodes[0] = (Vector2){x, y};
     objects[id].looseNodeCount = 1;
 
-    ObjSprite2D_SetBulletSprite(id, graphic);
+    ObjSprite2D_SetColor(id, color);
     Obj_SetDelay(id, delay);
 
     return id;
