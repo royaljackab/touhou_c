@@ -37,7 +37,7 @@ ObjID CreateLaser(float x, float y, float angle, float length, float maxWidth, i
     return id;
 }
 
-ObjID CreateLooseLaser(float x, float y, float speed, float angle, float length, float width, int graphic, int delay) {
+ObjID CreateLooseLaser(float x, float y, float speed, float angle, float length, float width, Color color, int delay) {
     int id = Obj_Create(OBJ_LOOSE_LASER);
     if (id == ID_INVALID) return ID_INVALID;
 
@@ -52,7 +52,7 @@ ObjID CreateLooseLaser(float x, float y, float speed, float angle, float length,
     objects[id].looseNodes[0] = (Vector2){x, y};
     objects[id].looseNodeCount = 1;
 
-    ObjSprite2D_SetBulletSprite(id, graphic);
+    ObjSprite2D_SetColor(id, color);
     Obj_SetDelay(id, delay);
 
     return id;

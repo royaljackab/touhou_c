@@ -357,19 +357,19 @@ void DrawObjects() {
             if (objects[i].type == OBJ_LOOSE_LASER) {
                 if (objects[i].looseNodeCount < 2) continue;
 
-                // Préparation des sommets pour DrawTriangleStrip
                 // On a besoin de 2 sommets par noeud (gauche et droite)
                 int count = objects[i].looseNodeCount;
-                // Raylib permet de dessiner un strip. Nous allons calculer les points manuellement.
-                
-                // Note: Pour une implémentation pure Raylib sans rlgl, on peut utiliser une boucle de DrawTriangle
-                // ou générer un tableau pour DrawTriangleStrip.
                 
                 float w = objects[i].looseWidth / 2.0f;
                 Color col = objects[i].sprite.color;
 
+                int nbNodes = objects[i].looseNodeCount;
+
                 // On parcourt les segments
                 for (int k = 0; k < count - 1; k++) {
+                    float wp = k * (nbNodes - k) * (4.0/(nbNodes*nbNodes*1.0)) * w;
+
+
                     Vector2 p1 = objects[i].looseNodes[k];
                     Vector2 p2 = objects[i].looseNodes[k+1];
                     
@@ -378,10 +378,10 @@ void DrawObjects() {
                     Vector2 normal = Vector2Normalize((Vector2){ -diff.y, diff.x }); // Perpendiculaire
                     
                     // Points du quadrilatère (P1 Left, P1 Right, P2 Left, P2 Right)
-                    Vector2 p1L = Vector2Add(p1, Vector2Scale(normal, w));
-                    Vector2 p1R = Vector2Subtract(p1, Vector2Scale(normal, w));
-                    Vector2 p2L = Vector2Add(p2, Vector2Scale(normal, w));
-                    Vector2 p2R = Vector2Subtract(p2, Vector2Scale(normal, w));
+                    Vector2 p1L = Vector2Add(p1, Vector2Scale(normal, wp));
+                    Vector2 p1R = Vector2Subtract(p1, Vector2Scale(normal, wp));
+                    Vector2 p2L = Vector2Add(p2, Vector2Scale(normal, wp));
+                    Vector2 p2R = Vector2Subtract(p2, Vector2Scale(normal, wp));
 
                     // Dessin de 2 triangles pour former le segment
                     // Attention à l'ordre des sommets pour le Culling
@@ -389,10 +389,8 @@ void DrawObjects() {
                     DrawTriangle(p1L, p2R, p1R, col);
                     
                     // Optionnel: Ajouter des cercles aux jointures pour lisser les angles
-                    DrawCircleV(p1, w, col);
+                    DrawCircleV(p1, wp, col);
                 }
-                // Cercle à la fin
-                DrawCircleV(objects[i].looseNodes[count-1], w, col);
                 
                 continue; 
             }
@@ -400,7 +398,6 @@ void DrawObjects() {
             
             if(objects[i].type != OBJ_BOSS) objects[i].sprite.rotation = objects[i].angle;
             DrawSprite(objects[i].sprite, objects[i].pos);
-            DrawCircle(o.pos.x, o.pos.y, o.sprite.hitboxRadius, RED);
         }
     }
 }
