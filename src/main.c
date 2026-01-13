@@ -1,4 +1,6 @@
 #include "test_task.h"
+#include "main.h"
+#include "menu.h"
 #include <stddef.h>
 
 int main() {
@@ -12,22 +14,31 @@ int main() {
     AssetsLoad();
     initialize();
 
+    gameState gameState = TITLE_SCREEN;
+    
     void* moonlightState = NULL;
 
     while(!WindowShouldClose()) {
-        moonlight_task(&moonlightState);
-        UpdateObjects();
+        switch(gameState){
+            case TITLE_SCREEN:
+                menu_task(&gameState);
+            break;
+            case MOONLIGHT:
+                moonlight_task(&moonlightState);
+                UpdateObjects();
 
-        BeginDrawing();
-            ClearBackground(BLACK);
+                BeginDrawing();
+                    ClearBackground(BLACK);
 
-            DrawObjects();
-            DrawPlayer();
-            UpdatePlayer();
-            UpdateAnimations();
-            UpdateAnimationPlayer();
-            UpdateCollisions();
-        EndDrawing();
+                    DrawObjects();
+                    DrawPlayer();
+                    UpdatePlayer();
+                    UpdateAnimations();
+                    UpdateAnimationPlayer();
+                    UpdateCollisions();
+                EndDrawing();
+            break;
+        }
     }
 
     AssetsUnload();

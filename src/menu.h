@@ -1,0 +1,16 @@
+#define NB_BUTTONS 2
+#include "sprite.h"
+#include "include/raylib.h"
+#include "task.h"
+#include "main.h"
+
+
+// Peut-être ça servira un jour
+typedef struct{
+    Sprite sprite;
+    Vector2 pos;
+} button;
+
+void updateMenu(gameState *gameState, int* selection);
+void drawMenu(int selection);
+void menu_task(gameState *gameState);
