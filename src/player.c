@@ -58,12 +58,6 @@ void UpdatePlayer() {
         playerSprites[HITBOX].color.a = Clamp(playerSprites[HITBOX].color.a - 40,0,255);
     }
 
-    //Affichage hitbox
-    if (playerSprites[HITBOX].color.a > 0) {
-        DrawSprite(playerSprites[HITBOX], player.pos);
-        playerSprites[HITBOX].rotation += 3;
-    }
-
     //Tirs
     if(IsKeyDown(KEY_Z)) {
         if(shotTimer==0) {
@@ -75,6 +69,7 @@ void UpdatePlayer() {
 
     Vector2 move = {0,0};
 
+    //Déplacements
     if(IsKeyDown(KEY_LEFT)) move = Vector2Add(move, (Vector2){-1,0});
     if(IsKeyDown(KEY_UP)) move = Vector2Add(move, (Vector2){0,-1});
     if(IsKeyDown(KEY_RIGHT)) move = Vector2Add(move, (Vector2){1,0});
@@ -115,6 +110,12 @@ void UpdatePlayer() {
 
 void DrawPlayer() {
     DrawSprite(player.sprite, player.pos);
+    
+    //Affichage hitbox
+    if (playerSprites[HITBOX].color.a > 0) {
+        DrawSprite(playerSprites[HITBOX], player.pos);
+        playerSprites[HITBOX].rotation += 3;
+    }
 }
 
 void UpdateAnimationPlayer() {

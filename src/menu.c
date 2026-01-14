@@ -1,5 +1,6 @@
 #include "menu.h"
 #include <stdio.h>
+#include "globals.h"
 
 void drawMenu(int selection){
     DrawText("TOUHOU_C", 50, 200, 80, RED);
@@ -38,13 +39,24 @@ void updateMenu(gameState *gameState, int* selection){
     }
 }
 
-void menu(gameState *gameState){
+void menu(){
     static int selection = 0;
-    updateMenu(gameState, &selection);
+    updateMenu(&globals.gameState, &selection);
     
     BeginDrawing();
         ClearBackground(BLACK);
 
         drawMenu(selection);
     EndDrawing(); 
+}
+
+void pauseGame(){
+    if(IsKeyPressed(KEY_P)){
+        globals.pause = !globals.pause;
+    }
+}
+
+void pauseMenu(){
+    DrawText("PAUSE", 100, 300, 50, RED);
+    DrawRectangleLines(50, 50, PANEL_WIDTH - 100, PANEL_HEIGHT - 100, WHITE);
 }
