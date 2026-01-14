@@ -1,3 +1,6 @@
+#ifndef MENU_H
+#define MENU_H
+
 #define NB_BUTTONS 2
 #include "sprite.h"
 #include "include/raylib.h"
@@ -13,3 +16,5 @@ typedef struct{
 void updateMenu(gameState *gameState, int* selection);
 void drawMenu(int selection);
 void menu(gameState *gameState);
+
+#endif
