@@ -1,11 +1,10 @@
 #include "obj.h"
+#include "globals.h"
 #include <stdio.h>
 
 #define o objects[i]
 
 Object objects[MAX_OBJECTS];
-
-
 
 ObjID Obj_Create(ObjType type) {
     for (int i=0; i<MAX_OBJECTS; i++) {
@@ -32,6 +31,7 @@ ObjID Obj_Create(ObjType type) {
     return ID_INVALID;
 }
 
+/* Fonctions statiques */
 static void ShiftPatterns(Object* obj) {
     for (int i=0; i < obj->patternCount - 1; i++) {
         obj->patterns[i] = obj->patterns[i+1];
@@ -47,6 +47,27 @@ static void ApplyMoveParams(Object* obj, MovePattern* p) {
     if (p->maxSpd != NO_CHANGE) obj->maxSpd = p->maxSpd;
 }
 
+static bool IsOutOfDrawBounds(Vector2 pos, Sprite sprite) {
+    /***
+     * Retourne si le sprite à la position pos est hors de la fenêtre de dessin
+     */
+
+    //grossier
+    return (pos.x + sprite.srcRect.width < PANEL_LEFT || pos.x - sprite.srcRect.width > PANEL_LEFT + PANEL_WIDTH 
+        || pos.y + sprite.srcRect.height < PANEL_UP || pos.y - sprite.srcRect.height > PANEL_UP + PANEL_HEIGHT);
+        
+}
+
+static bool IsOutOfBounds(Vector2 pos) {
+    /***
+     * Retourne si l'objet est hors limites ou pas
+     */
+
+     return (pos.x < - DRAW_MARGIN || pos.x > PANEL_WIDTH + PANEL_LEFT + DRAW_MARGIN
+        || pos.y < -DRAW_MARGIN || pos.y > PANEL_UP + PANEL_HEIGHT + DRAW_MARGIN);
+}
+
+/* Fonctions globales */
 void ObjMove_AddPattern(ObjID id, int frameDelay, float speed, float angle, float accel, float maxSpd, float angVel) {
     if (id==ID_INVALID) return;
     if (objects[id].patternCount >= MAX_PATTERNS) return;
@@ -168,12 +189,10 @@ void UpdateObjects() {
     for (int i=0; i<MAX_OBJECTS; i++) {
         if(!objects[i].active) continue;
 
-        if(objects[i].pos.x < PANEL_LEFT - DRAW_MARGIN || objects[i].pos.x > PANEL_LEFT + PANEL_WIDTH + DRAW_MARGIN 
-            || objects[i].pos.y < PANEL_UP - DRAW_MARGIN || objects[i].pos.y > PANEL_UP + PANEL_HEIGHT + DRAW_MARGIN || objects[i].life <= 0) { 
-            
+        if( (objects[i].type != OBJ_LOOSE_LASER && IsOutOfBounds(objects[i].pos)) || (objects[i].disappearOnDeath && objects[i].life <= 0) )
             objects[i].active=false;
-        }
-        
+        if (objects[i].type == OBJ_LOOSE_LASER && IsOutOfBounds(objects[i].looseNodes[objects[i].looseNodeCount-1]))
+            objects[i].active=false;
         objects[i].timer++;
 
         //Gestion patterns
@@ -331,8 +350,7 @@ void UpdateAnimations() {
 
 void DrawObjects() {
     for(int i=0; i<MAX_OBJECTS; i++) {
-        if(objects[i].active && objects[i].timer >= objects[i].delay && objects[i].pos.x >= PANEL_LEFT && objects[i].pos.x <= PANEL_LEFT + PANEL_WIDTH 
-            && objects[i].pos.y >= PANEL_UP && objects[i].pos.y <= PANEL_UP + PANEL_HEIGHT) {
+        if(objects[i].active && objects[i].timer >= objects[i].delay && !IsOutOfDrawBounds(objects[i].pos, objects[i].sprite)) {
 
             //straight laser
             if (objects[i].type == OBJ_ENEMY_LASER || objects[i].type == OBJ_PLAYER_LASER) {
@@ -369,7 +387,6 @@ void DrawObjects() {
                 for (int k = 0; k < count - 1; k++) {
                     float wp = k * (nbNodes - k) * (4.0/(nbNodes*nbNodes*1.0)) * w;
 
-
                     Vector2 p1 = objects[i].looseNodes[k];
                     Vector2 p2 = objects[i].looseNodes[k+1];
                     
@@ -384,9 +401,8 @@ void DrawObjects() {
                     Vector2 p2R = Vector2Subtract(p2, Vector2Scale(normal, wp));
 
                     // Dessin de 2 triangles pour former le segment
-                    // Attention à l'ordre des sommets pour le Culling
-                    DrawTriangle(p1L, p2L, p2R, col);
-                    DrawTriangle(p1L, p2R, p1R, col);
+                    DrawTriangle(p2R, p2L, p1L, col);
+                    DrawTriangle(p1R, p2R, p1L, col);
                     
                     // Optionnel: Ajouter des cercles aux jointures pour lisser les angles
                     DrawCircleV(p1, wp, col);

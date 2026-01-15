@@ -10,8 +10,6 @@ typedef enum {
     RED_LASER
 } BulletGraphic;
 
-extern Sprite bulletSprites[MAX_TEXTURES];
-
 void Load_BulletSprites();
 void ObjSprite2D_SetBulletSprite(ObjID id, BulletGraphic graphic);
 

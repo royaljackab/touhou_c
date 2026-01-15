@@ -38,13 +38,12 @@ Define_Static_Task(loser, NO_PARAMS);
     ObjMove_AddPattern(obj, 120, NO_CHANGE, NO_CHANGE, 5, 7, 0);
 End_Task;
 
-Define_Static_Task(snakeRing, PARAMS(Color color), ObjID obj; int dir;);
-    ctx->dir = 1;
-    ctx->obj = CreateLooseLaser(bossX, bossY, 3, 45, 200, 10, color, 0);
-    while(objects[ctx->obj].active) {
-        ObjMove_AddPattern(ctx->obj,20, NO_CHANGE, NO_CHANGE, NO_CHANGE, NO_CHANGE, ctx->dir * 3);
-        ctx->dir *= -1;
-        yield;
+Define_Static_Task(snakeRing, PARAMS(Color color));
+    float angleT=0;
+    for(int i=0; i<5; i++) {
+        ObjID laser = CreateLooseLaser(bossX, bossY, 3, angleT, 200, 50, color, 0);
+        ObjMove_AddPattern(laser, 40, NO_CHANGE, angleT+20, NO_CHANGE, NO_CHANGE, NO_CHANGE);
+        angleT += 360.0/5;
     }
 End_Task;
 

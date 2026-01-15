@@ -5,17 +5,13 @@
 #include "include/raymath.h"
 
 #include "sprite.h"
-#include "globals.h"
 
 #define NO_CHANGE -9999999
 #define NO_LIMIT 9999999
 #define MAX_PATTERNS 8
 #define MAX_LOOSE_NODES 200
 
-#define MAX_OBJECTS 10000
-
 typedef int ObjID;
-
 
 typedef enum {
     ID_INVALID = -1,
@@ -88,10 +84,9 @@ typedef struct {
     int patternCount;
 
     // Flags
-    int disappearOnHit;
+    bool disappearOnHit; // L'objet disparaît lorsque collision avec un ennemi
+    bool disappearOnDeath; // L'objet disparaît lorsque life=0
 } Object;
-
-extern Object objects[MAX_OBJECTS];
 
 ObjID Obj_Create (ObjType type);
 void Obj_Delete  (ObjID* id);

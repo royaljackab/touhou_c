@@ -1,4 +1,5 @@
 #include "bullet_sprites.h"
+#include "globals.h"
 
 Sprite bulletSprites[MAX_TEXTURES];
 
