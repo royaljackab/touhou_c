@@ -4,18 +4,13 @@
 #include "raylib.h"
 #include "raymath.h"
 
-
-
 enum {
     BULLET_SPRITESHEET,
     BOSS_SPRITESHEET,
     ANIM_TEST_SPRITESHEET,
     REIMU_SPRITESHEET,
-    HITBOX_SPRITESHEET,
-    MAX_TEXTURES
+    HITBOX_SPRITESHEET
 };
-
-extern Texture2D textures[MAX_TEXTURES];
 
 void AssetsLoad();
 void AssetsUnload();

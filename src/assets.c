@@ -1,4 +1,5 @@
 #include "assets.h"
+#include "globals.h"
 
 Texture2D textures[MAX_TEXTURES];
 

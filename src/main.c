@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "menu.h"
 
-    varGlobals globals;
+varGlobals globals;
 
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Night of nights");
@@ -39,8 +39,14 @@ int main() {
 
                 BeginDrawing();
                     ClearBackground(BLACK);
+                    DrawRectangleLines(PANEL_LEFT,PANEL_UP,PANEL_WIDTH,PANEL_HEIGHT,WHITE);
+                    
                     DrawObjects();
                     DrawPlayer();
+                    DrawRectangle(0,0,PANEL_LEFT,SCREEN_HEIGHT,BLACK);
+                    DrawRectangle(PANEL_LEFT,0,SCREEN_WIDTH-PANEL_LEFT,PANEL_UP,BLACK);
+                    DrawRectangle(PANEL_LEFT+PANEL_WIDTH,PANEL_UP,SCREEN_WIDTH-PANEL_LEFT-PANEL_WIDTH,SCREEN_HEIGHT-PANEL_UP,BLACK);
+                    DrawRectangle(PANEL_LEFT,PANEL_UP+PANEL_HEIGHT,SCREEN_WIDTH-PANEL_WIDTH,SCREEN_HEIGHT-PANEL_HEIGHT-PANEL_UP,BLACK);
                 EndDrawing();
             break;
         }
