@@ -81,7 +81,6 @@ void updateMenu(){
     }
 
     if(IsKeyPressed(globals.keybind_validate)){
-        printf("---\n");
         for(i = 0; i < nbButtons; i++){
             if(selection == buttons[i].order && page == buttons[i].pageCurrent){
                 
@@ -90,9 +89,7 @@ void updateMenu(){
                 }
                 
                 if(buttons[i].pageNext != page){
-                    printf("%d | %d\n", page, buttons[i].pageNext);
                     page = buttons[i].pageNext;
-                    printf("%d | %d\n", page, buttons[i].pageNext);
                     selection = 0;
                 }
                 break;  // ce break est essentiel: après avoir changé de page il ne faut surtout pas

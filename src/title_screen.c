@@ -19,6 +19,10 @@ void init_menu(){
     Button_Create(no_sprite,60,470,"move_right",20,WHITE,KEYBINDS,KEYBINDS,2,button_getKey_move_right);
     Button_Create(no_sprite,60,490,"move_down",20,WHITE,KEYBINDS,KEYBINDS,3,button_getKey_move_down);
     Button_Create(no_sprite,60,510,"move_up",20,WHITE,KEYBINDS,KEYBINDS,4,button_getKey_move_up);
+    Button_Create(no_sprite,60,530,"shoot",20,WHITE,KEYBINDS,KEYBINDS,5,button_getKey_shoot);
+    Button_Create(no_sprite,60,550,"focus_mode",20,WHITE,KEYBINDS,KEYBINDS,6,button_getKey_focus_mode);
+    Button_Create(no_sprite,60,570,"validate",20,WHITE,KEYBINDS,KEYBINDS,7,button_getKey_validate);
+    Button_Create(no_sprite,60,590,"pause",20,WHITE,KEYBINDS,KEYBINDS,8,button_getKey_pause);
 }
 
 //Fonctions de boutons

@@ -22,8 +22,6 @@ void load_settings(){
     }
     printf("options chargées avec succès\n");
     while(fscanf(f," %29[^=]=%d",optionName,&optionValue) != EOF){
-        printf("%s | %d - ",optionName,optionValue);
-
         //------ keybinds ------
         if(strcmp(optionName,"keybind_move_left") == 0){
             printf("left set to %d\n",optionValue);
