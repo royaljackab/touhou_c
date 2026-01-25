@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <stdio.h>
 #include "menu.h"
+#include "title_screen.h"
+#include "settings.h"
 
 varGlobals globals;
 
@@ -15,6 +17,10 @@ int main() {
     InitPlayer(REIMU_A);
     AssetsLoad();
     initialize();
+
+    init_menu();
+
+    load_settings();
 
     globals.gameState = TITLE_SCREEN;
     globals.pause = 0;
@@ -57,8 +63,6 @@ int main() {
             pauseMenu();
         }
     }
-
-
     AssetsUnload();
     CloseWindow();
 }

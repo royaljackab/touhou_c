@@ -47,19 +47,19 @@ void UpdatePlayer() {
     
     //Vitesse + hitbox (focus mode)
     float speed = player.speed;
-    if(IsKeyPressed(KEY_LEFT_SHIFT)) {
+    if(IsKeyPressed(globals.keybind_focus_mode)) {
         playerSprites[HITBOX].color.a=0;
     }
-    if(IsKeyDown(KEY_LEFT_SHIFT)) {
+    if(IsKeyDown(globals.keybind_focus_mode)) {
         speed = player.focusSpeed;
         playerSprites[HITBOX].color.a = Clamp(playerSprites[HITBOX].color.a + 40,0,255);
     }
-    if(!IsKeyDown(KEY_LEFT_SHIFT)) {
+    if(!IsKeyDown(globals.keybind_focus_mode)) {
         playerSprites[HITBOX].color.a = Clamp(playerSprites[HITBOX].color.a - 40,0,255);
     }
 
     //Tirs
-    if(IsKeyDown(KEY_Z)) {
+    if(IsKeyDown(globals.keybind_shoot)) {
         if(shotTimer==0) {
             CreateShotType(OBJ_PLAYER_SHOT, player.pos.x - 7, player.pos.y - 20, 50, 270, REIMU_PINK_AMULET, 0);
             CreateShotType(OBJ_PLAYER_SHOT,player.pos.x + 7, player.pos.y - 20, 50, 270, REIMU_PINK_AMULET, 0);
@@ -70,10 +70,10 @@ void UpdatePlayer() {
     Vector2 move = {0,0};
 
     //Déplacements
-    if(IsKeyDown(KEY_LEFT)) move = Vector2Add(move, (Vector2){-1,0});
-    if(IsKeyDown(KEY_UP)) move = Vector2Add(move, (Vector2){0,-1});
-    if(IsKeyDown(KEY_RIGHT)) move = Vector2Add(move, (Vector2){1,0});
-    if(IsKeyDown(KEY_DOWN)) move = Vector2Add(move, (Vector2){0,1});
+    if(IsKeyDown(globals.keybind_move_left)) move = Vector2Add(move, (Vector2){-1,0});
+    if(IsKeyDown(globals.keybind_move_up)) move = Vector2Add(move, (Vector2){0,-1});
+    if(IsKeyDown(globals.keybind_move_right)) move = Vector2Add(move, (Vector2){1,0});
+    if(IsKeyDown(globals.keybind_move_down)) move = Vector2Add(move, (Vector2){0,1});
 
     //Anim
     int currentAnim = REIMU_IDLE;
