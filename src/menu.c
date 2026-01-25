@@ -27,9 +27,12 @@ void drawMenuText(){
     button b;
     for(int i = 0; i < nbButtons; i++){
         b = buttons[i];
-        DrawText(b.text,b.pos.x,b.pos.y,b.textSize,b.textColor);
-        if(b.order == selection){
-            DrawText("*", b.pos.x - 30, b.pos.y, b.textSize, b.textColor);
+        if(b.pageCurrent == page){
+            DrawText(b.text,b.pos.x,b.pos.y,b.textSize,b.textColor);
+
+            if(b.order == selection){
+                DrawText("*", b.pos.x - 30, b.pos.y, b.textSize, b.textColor);
+            }
         }
     }
 }
@@ -42,13 +45,18 @@ void drawPage_MAIN_MENU(){
     DrawText("TOUHOU_C", 50, 200, 80, RED);
 }
 
+void drawPage_KEYBINDS(){
+    DrawText("CONTROLS", 50, 170, 60, RED);
+}
+
 void drawPages(){
-    switch (page)
+    switch((int)page)
     {
     case MAIN_MENU:
         drawPage_MAIN_MENU();
         break;
-    case OPTIONS1:
+    case KEYBINDS:
+        drawPage_KEYBINDS();
         break;
     }
 }
@@ -65,14 +73,15 @@ void updateMenu(){
         nbButtonsPage += (page == buttons[i].pageCurrent);
     }
 
-    if(IsKeyPressed(KEY_DOWN) && selection < nbButtonsPage){
+    if(IsKeyPressed(globals.keybind_move_down) && selection < nbButtonsPage-1){
         (selection)++;
     } 
-    if(IsKeyPressed(KEY_UP) && selection > 0){
+    if(IsKeyPressed(globals.keybind_move_up) && selection > 0){
         (selection)--;
     }
 
-    if(IsKeyDown(KEY_SPACE)){
+    if(IsKeyPressed(globals.keybind_validate)){
+        printf("---\n");
         for(i = 0; i < nbButtons; i++){
             if(selection == buttons[i].order && page == buttons[i].pageCurrent){
                 
@@ -81,10 +90,13 @@ void updateMenu(){
                 }
                 
                 if(buttons[i].pageNext != page){
+                    printf("%d | %d\n", page, buttons[i].pageNext);
                     page = buttons[i].pageNext;
+                    printf("%d | %d\n", page, buttons[i].pageNext);
                     selection = 0;
                 }
-                
+                break;  // ce break est essentiel: après avoir changé de page il ne faut surtout pas
+                        // continuer de parcourir les boutons au risque de refaire des changements
             }
         }
     }
@@ -105,7 +117,7 @@ void menu(){
 }
 
 void pauseGame(){
-    if(IsKeyPressed(KEY_P)){
+    if(IsKeyPressed(globals.keybind_pause)){
         globals.pause = !globals.pause;
     }
 }

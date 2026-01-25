@@ -25,6 +25,17 @@ typedef enum{
 typedef struct{
     gameState gameState;
     int pause;
+
+    //------------------ settings ------------------
+    //------ keybinds ------
+    KeyboardKey keybind_move_left;
+    KeyboardKey keybind_move_right;
+    KeyboardKey keybind_move_up;
+    KeyboardKey keybind_move_down;
+    KeyboardKey keybind_shoot;
+    KeyboardKey keybind_pause;
+    KeyboardKey keybind_validate;
+    KeyboardKey keybind_focus_mode;
 } varGlobals;
 
 extern varGlobals globals;

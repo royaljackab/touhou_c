@@ -11,6 +11,7 @@
 typedef enum{
     MAIN_MENU,
     OPTIONS1,
+    KEYBINDS,
 } pageMenu;
 
 // Peut-être ça servira un jour
