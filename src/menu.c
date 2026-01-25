@@ -1,52 +1,106 @@
 #include "menu.h"
 #include <stdio.h>
 #include "globals.h"
+#include <string.h>
 
-void drawMenu(int selection){
-    DrawText("TOUHOU_C", 50, 200, 80, RED);
-    DrawText("BEGIN GAME", 50, 400, 40, WHITE);
-    DrawText("MOONLIGHT TEST", 50, 500, 40, WHITE);
+static int selection = 0;
+static pageMenu page = MAIN_MENU;
+static int nbButtons = 0;
+button buttons[MAX_BUTTONS];
 
-    switch (selection){
-            case 0: 
-                DrawText("*", 20, 400, 40, WHITE);
-                break;
-            case 1:
-                DrawText("*", 20, 500, 40, WHITE);
-                break;
-    }
+void Button_Create(Sprite sprite, int x, int y, char * text, int textSize, Color color, pageMenu pageCurrent, pageMenu pageNext, int order, void (*function)(void)){
+    buttons[nbButtons].sprite = sprite;
+    buttons[nbButtons].pos.x = x;
+    buttons[nbButtons].pos.y = y;
+    strcpy(buttons[nbButtons].text,text);
+    buttons[nbButtons].textSize = textSize;
+    buttons[nbButtons].textColor = color;
+    buttons[nbButtons].pageCurrent = pageCurrent;
+    buttons[nbButtons].pageNext = pageNext;
+    buttons[nbButtons].order = order;
+    buttons[nbButtons].function = function;
+    nbButtons++;
 }
 
-void updateMenu(gameState *gameState, int* selection){
-    if(IsKeyPressed(KEY_DOWN) && *selection < NB_BUTTONS){
-        (*selection)++;
-    } 
-    if(IsKeyPressed(KEY_UP) && *selection > 0){
-        (*selection)--;
-    }
 
-    if(IsKeyDown(KEY_SPACE)){
-        switch (*selection){
-            case 0: 
-                BeginDrawing();
-                    DrawText("NOT IMPLEMENTED", 400, 400, 40, RED);
-                EndDrawing();
-                break;
-            case 1:
-                *gameState = MOONLIGHT;
-                break;
+void drawMenuText(){
+    button b;
+    for(int i = 0; i < nbButtons; i++){
+        b = buttons[i];
+        DrawText(b.text,b.pos.x,b.pos.y,b.textSize,b.textColor);
+        if(b.order == selection){
+            DrawText("*", b.pos.x - 30, b.pos.y, b.textSize, b.textColor);
         }
     }
 }
 
+
+// --------------- Fonctions de pages --------------------- //
+
+
+void drawPage_MAIN_MENU(){
+    DrawText("TOUHOU_C", 50, 200, 80, RED);
+}
+
+void drawPages(){
+    switch (page)
+    {
+    case MAIN_MENU:
+        drawPage_MAIN_MENU();
+        break;
+    case OPTIONS1:
+        break;
+    }
+}
+
+
+// -------------------------------------------------------- //
+
+void updateMenu(){
+    int nbButtonsPage = 0;
+    int i;
+
+    //On compte le nombre de boutons sur la page en cours d'affichage
+    for(i = 0; i< nbButtons; i++){
+        nbButtonsPage += (page == buttons[i].pageCurrent);
+    }
+
+    if(IsKeyPressed(KEY_DOWN) && selection < nbButtonsPage){
+        (selection)++;
+    } 
+    if(IsKeyPressed(KEY_UP) && selection > 0){
+        (selection)--;
+    }
+
+    if(IsKeyDown(KEY_SPACE)){
+        for(i = 0; i < nbButtons; i++){
+            if(selection == buttons[i].order && page == buttons[i].pageCurrent){
+                
+                if(buttons[i].function != NULL){
+                    buttons[i].function();
+                }
+                
+                if(buttons[i].pageNext != page){
+                    page = buttons[i].pageNext;
+                    selection = 0;
+                }
+                
+            }
+        }
+    }
+}
+
+
+
 void menu(){
-    static int selection = 0;
-    updateMenu(&globals.gameState, &selection);
+    updateMenu();
     
     BeginDrawing();
         ClearBackground(BLACK);
 
-        drawMenu(selection);
+
+        drawPages();
+        drawMenuText();
     EndDrawing(); 
 }
 
