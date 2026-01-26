@@ -7,6 +7,7 @@
 #include "globals.h"
 
 #define MAX_BUTTONS 1000
+#define NO_BUTTON -1
 
 typedef enum{
     MAIN_MENU,
@@ -28,6 +29,8 @@ typedef struct{
     pageMenu pageCurrent; //page sur laquelle on trouve ce bouton
     pageMenu pageNext; //page vers laquelle envoie ce bouton
     int order; //la valeur de "selection" qui correspond à ce bouton
+    int buttonLeft;
+    int buttonRight;
 
     void (*function)(void); //traitement à réaliser par le bouton
     // note: le traitement prend void en paramètre, ce qui pourrait poser problème.
@@ -45,5 +48,7 @@ void drawPages              ();
 void menu                   ();
 void pauseGame              ();
 void pauseMenu              ();
-void Button_Create          (Sprite sprite, int x, int y, char * text, int textSize, Color color, pageMenu pageCurrent, pageMenu pageNext, int order, void (*function)(void));
+void Button_Create_Sprite   (Sprite sprite, int x, int y, pageMenu pageCurrent, pageMenu pageNext, int buttonLeft, int buttonRight, int order, void (*function)(void));
+void Button_Create_Text     (int x, int y, char * text, int textSize, Color color, pageMenu pageCurrent, pageMenu pageNext, int buttonLeft, int buttonRight, int order, void (*function)(void));
+
 #endif
