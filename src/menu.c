@@ -8,8 +8,20 @@ static pageMenu page = MAIN_MENU;
 static int nbButtons = 0;
 button buttons[MAX_BUTTONS];
 
-void Button_Create(Sprite sprite, int x, int y, char * text, int textSize, Color color, pageMenu pageCurrent, pageMenu pageNext, int order, void (*function)(void)){
+void Button_Create_Sprite(Sprite sprite, int x, int y, pageMenu pageCurrent, pageMenu pageNext, int buttonLeft, int buttonRight, int order, void (*function)(void)){
     buttons[nbButtons].sprite = sprite;
+    buttons[nbButtons].pos.x = x;
+    buttons[nbButtons].pos.y = y;
+    buttons[nbButtons].pageCurrent = pageCurrent;
+    buttons[nbButtons].pageNext = pageNext;
+    buttons[nbButtons].buttonLeft = buttonLeft;
+    buttons[nbButtons].buttonRight = buttonRight;
+    buttons[nbButtons].order = order;
+    buttons[nbButtons].function = function;
+    nbButtons++;
+}
+
+void Button_Create_Text(int x, int y, char * text, int textSize, Color color, pageMenu pageCurrent, pageMenu pageNext, int buttonLeft, int buttonRight, int order, void (*function)(void)){
     buttons[nbButtons].pos.x = x;
     buttons[nbButtons].pos.y = y;
     strcpy(buttons[nbButtons].text,text);
@@ -17,6 +29,8 @@ void Button_Create(Sprite sprite, int x, int y, char * text, int textSize, Color
     buttons[nbButtons].textColor = color;
     buttons[nbButtons].pageCurrent = pageCurrent;
     buttons[nbButtons].pageNext = pageNext;
+    buttons[nbButtons].buttonLeft = buttonLeft;
+    buttons[nbButtons].buttonRight = buttonRight;
     buttons[nbButtons].order = order;
     buttons[nbButtons].function = function;
     nbButtons++;
@@ -29,7 +43,6 @@ void drawMenuText(){
         b = buttons[i];
         if(b.pageCurrent == page){
             DrawText(b.text,b.pos.x,b.pos.y,b.textSize,b.textColor);
-
             if(b.order == selection){
                 DrawText("*", b.pos.x - 30, b.pos.y, b.textSize, b.textColor);
             }
@@ -67,7 +80,6 @@ void drawPages(){
 void updateMenu(){
     int nbButtonsPage = 0;
     int i;
-
     //On compte le nombre de boutons sur la page en cours d'affichage
     for(i = 0; i< nbButtons; i++){
         nbButtonsPage += (page == buttons[i].pageCurrent);
@@ -78,6 +90,14 @@ void updateMenu(){
     } 
     if(IsKeyPressed(globals.keybind_move_up) && selection > 0){
         (selection)--;
+    }
+    if(IsKeyPressed(globals.keybind_move_left)){
+        for(i=0; (buttons[i].pageCurrent!=page || buttons[i].order!=selection)&&(i<nbButtons); i++);
+        if(buttons[i].buttonLeft != NO_BUTTON) selection=buttons[i].buttonLeft;
+    }
+    if(IsKeyPressed(globals.keybind_move_right)){
+        for(i=0; (buttons[i].pageCurrent!=page || buttons[i].order!=selection)&&(i<nbButtons); i++);
+        if(buttons[i].buttonRight != NO_BUTTON) selection=buttons[i].buttonRight;
     }
 
     if(IsKeyPressed(globals.keybind_validate)){

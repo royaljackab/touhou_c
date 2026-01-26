@@ -1,3 +1,6 @@
+#ifndef TITLE_SCREEN_H
+#define TITLE_SCREEN_H
+
 #include "globals.h"
 
 #define DECLARE_BUTTON_GET_KEY_FUNCTION(TARGET_BIND) \
@@ -17,3 +20,5 @@ void button_getKey_shoot        ();
 void button_getKey_pause        ();
 void button_getKey_validate     ();
 void button_getKey_focus_mode   ();
+
+#endif
