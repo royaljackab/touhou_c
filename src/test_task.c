@@ -61,7 +61,6 @@ Define_Task(moonlight_task, NO_PARAMS, int count; void *ringState; void *laserSt
     wait(80);
 
     while(1) {
-
         movement(&ctx->moveState);
         if(ctx->count % 10 == 0) {
             fireRing(&ctx->ringState);
@@ -71,7 +70,6 @@ Define_Task(moonlight_task, NO_PARAMS, int count; void *ringState; void *laserSt
             fireLaser(&ctx->laserState, -1);
             snakeRing(&ctx->loserState, GREEN);
         }
-
         ctx->count++;
         yield;
     }

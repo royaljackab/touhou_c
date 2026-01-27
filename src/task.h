@@ -43,10 +43,10 @@
 #define PARAMS(...) , __VA_ARGS__
 #define NO_PARAMS
 
-#define Define_Static_Task(name, params, ...) \
+#define Define_Static_Task(name, params, context) \
     static void name(Task_contParam params) { \
         Task_beginContext; \
-            __VA_ARGS__ \
+            context \
         Task_endContext(ctx); \
         Task_begin(ctx);
 
