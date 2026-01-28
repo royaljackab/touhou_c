@@ -9,7 +9,20 @@ OBJ = $(patsubst %.c, build/%.o, $(SRC))
 
 INCLUDE_PATH = include
 CFLAGS += -I$(INCLUDE_PATH)
-LIBS = -L$(INCLUDE_PATH) -lraylib -lopengl32 -lgdi32 -lwinmm
+
+# --- DÉTECTION AUTOMATIQUE DE L'OS ---
+# On détecte le système d'exploitation pour ajuster les librairies
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+    # CONFIGURATION LINUX
+    # On lie raylib, OpenGL, Math, Pthread, et X11/Wayland
+    LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+else
+    # CONFIGURATION WINDOWS
+    # On garde ton ancienne config (assurant que libraylib.a est dans include/ ou lib/)
+    LIBS = -Linclude -lraylib -lopengl32 -lgdi32 -lwinmm
+endif
 
 all: build/$(TARGET)
 
