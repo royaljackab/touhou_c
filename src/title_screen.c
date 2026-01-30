@@ -1,7 +1,7 @@
-#include "title_screen.h"
-#include "globals.h"
-#include "menu.h"
-#include "settings.h"
+#include "lib/title_screen.h"
+#include "lib/globals.h"
+#include "lib/menu.h"
+#include "lib/settings.h"
 #include <stdio.h>
 
 

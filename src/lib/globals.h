@@ -13,7 +13,7 @@
 #define MAX_TEXTURES 200
 #define MAX_OBJECTS 10000
 
-#include "input.h"
+#include "../core/input.h"
 #include "obj.h"
 #include "sprite.h"
 
@@ -22,8 +22,8 @@ typedef enum { TITLE_SCREEN, STAGE1, MOONLIGHT } gameState;
 typedef struct {
   gameState gameState;
   int pause;
-  input_state inputState;
-  input_config inputConfig;
+  //input_state inputState;
+  //input_config inputConfig;
 } varGlobals;
 
 extern varGlobals globals;

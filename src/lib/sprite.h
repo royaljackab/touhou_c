@@ -1,7 +1,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include "include/raylib.h"
+#include "../include/raylib.h"
 #include <stdbool.h>
 
 #include "assets.h"

@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "lib/globals.h"
 #include <stdio.h>
 #include <string.h>
 

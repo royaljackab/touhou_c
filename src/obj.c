@@ -1,4 +1,4 @@
-#include "obj.h"
+#include "lib/obj.h"
 #include "globals.h"
 #include <stdio.h>
 

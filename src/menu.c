@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "lib/menu.h"
 #include <stdio.h>
 #include "globals.h"
 #include <string.h>

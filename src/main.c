@@ -1,8 +1,8 @@
-#include "input.h"
-#include "menu.h"
-#include "settings.h"
-#include "test_task.h"
-#include "title_screen.h"
+#include "core/input.h"
+#include "lib/menu.h"
+#include "lib/settings.h"
+#include "lib/test_task.h"
+#include "lib/title_screen.h"
 #include <stddef.h>
 #include <stdio.h>
 
