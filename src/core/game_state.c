@@ -1,4 +1,4 @@
-#include "game_state.h"
+#include "../../lib/game_state.h"
 #include <stddef.h>
 
 static GameState *get_state_pointer(StateID state) {
@@ -9,9 +9,9 @@ static GameState *get_state_pointer(StateID state) {
   // NOTE: Nouvel état = Nouveau case ici !
   switch (state) {
   case STATE_MENU:
-    return &state_menu;
+    //return &state_menu;
   case STATE_TEST:
-    return &state_test;
+    //return &state_test;
   default:
     return 0;
   }

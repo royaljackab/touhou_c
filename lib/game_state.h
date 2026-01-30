@@ -24,7 +24,7 @@ struct GameContext {
   StateID nextStateID;
   GameState *currentState;
 
-  InputSystem input;
+  InputState input;
 
   int debug;
 };

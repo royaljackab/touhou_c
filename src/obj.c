@@ -1,5 +1,5 @@
-#include "lib/obj.h"
-#include "globals.h"
+#include "../lib/obj.h"
+#include "../lib/globals.h"
 #include <stdio.h>
 
 #define o objects[i]

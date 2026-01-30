@@ -1,6 +1,6 @@
-#include "lib/menu.h"
+#include "../lib/menu.h"
 #include <stdio.h>
-#include "globals.h"
+#include "../lib/globals.h"
 #include <string.h>
 
 static int selection = 0;

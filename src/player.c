@@ -1,4 +1,4 @@
-#include "lib/player.h"
+#include "../lib/player.h"
 
 Player player;
 

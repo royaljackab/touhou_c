@@ -10,7 +10,7 @@
 
 // Configuration des keybinds, modifiable dans les settings
 typedef struct InputConfig {
-  // NOTE: gardez les memes noms de key pour config et system !
+  // NOTE: gardez les memes noms de key pour config et State !
   KeyboardKey up, left, right, down;
   KeyboardKey shoot;
   KeyboardKey bomb;
@@ -26,8 +26,8 @@ typedef struct KeyState {
 } KeyState;
 
 // Permet de savoir a tout instant chaque etat des touches interessantes
-typedef struct InputSystem {
-  // NOTE: gardez les memes noms de key pour config et system !
+typedef struct InputState {
+  // NOTE: gardez les memes noms de key pour config et State !
   InputConfig keybinds;
 
   KeyState up, left, right, down;
@@ -35,11 +35,11 @@ typedef struct InputSystem {
   KeyState bomb;
   KeyState focus;
   KeyState skip;
-} InputSystem;
+} InputState;
 
 /* Fonctions */
-extern void input_initialize(InputSystem * input);
-extern void input_update(InputSystem * input);
+extern void input_initialize(InputState * input);
+extern void input_update(InputState * input);
 
 extern int isPressed(KeyState key);
 extern int isDown(KeyState key);

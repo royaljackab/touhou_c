@@ -1,5 +1,5 @@
-#include "lib/bullet_sprites.h"
-#include "lib/globals.h"
+#include "../lib/bullet_sprites.h"
+#include "../lib/globals.h"
 
 Sprite bulletSprites[MAX_TEXTURES];
 

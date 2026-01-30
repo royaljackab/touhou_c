@@ -1,4 +1,4 @@
-#include "input.h"
+#include "../../lib/input.h"
 #include <raylib.h>
 
 /* Macros */
@@ -14,7 +14,7 @@ static void input_update_key(KeyState *keyState, KeyboardKey key) {
 
 /* Extern functions */
 
-void input_initialize(InputSystem *input) {
+void input_initialize(InputState *input) {
   // TODO: Remplir avec settings.txt s'il existe
   input->keybinds.up = KEY_UP;
   input->keybinds.down = KEY_DOWN;
@@ -27,7 +27,7 @@ void input_initialize(InputSystem *input) {
   input->keybinds.skip = KEY_LEFT_CONTROL;
 }
 
-void input_update(InputSystem *input) {
+void input_update(InputState *input) {
   /***
    * Chaque frame, remplit l'input pour qu'il corresponde
    * aux actions du joueur

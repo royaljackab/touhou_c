@@ -1,8 +1,8 @@
-#include "core/input.h"
-#include "lib/menu.h"
-#include "lib/settings.h"
-#include "lib/test_task.h"
-#include "lib/title_screen.h"
+#include "../lib/input.h"
+#include "../lib/menu.h"
+#include "../lib/settings.h"
+#include "../lib/test_task.h"
+#include "../lib/title_screen.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -20,7 +20,7 @@ int main() {
   initialize();
 
   init_menu();
-  input_initialize(&globals.inputConfig, &globals.inputState);
+  input_initialize(&globals.inputState);
 
   load_settings();
 
@@ -43,7 +43,7 @@ int main() {
         UpdateAnimations();
         UpdateAnimationPlayer();
         UpdateCollisions();
-        input_update(&globals.inputConfig, &globals.inputState);
+        input_update(&globals.inputState);
       }
 
       BeginDrawing();
