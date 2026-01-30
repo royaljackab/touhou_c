@@ -9,6 +9,3 @@ doxygen
 gant
 comment l'installer
 description
-
-Moi j'ai pas d'éval demain à 8H
-who said that
