@@ -1,3 +1,4 @@
+//NOTE: La mise a mort de ce ficher ne saurait tarder...
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
@@ -13,20 +14,9 @@
 #define MAX_TEXTURES 200
 #define MAX_OBJECTS 10000
 
-#include "input.h"
 #include "obj.h"
 #include "sprite.h"
 
-typedef enum { TITLE_SCREEN, STAGE1, MOONLIGHT } gameState;
-
-typedef struct {
-  gameState gameState;
-  int pause;
-  InputState inputState;
-  InputConfig inputConfig;
-} varGlobals;
-
-extern varGlobals globals;
 extern Texture2D textures[MAX_TEXTURES];
 extern Sprite bulletSprites[MAX_TEXTURES];
 extern Object objects[MAX_OBJECTS];

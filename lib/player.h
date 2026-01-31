@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "sprite.h"
-#include "globals.h"
+#include "game_state.h"
 #include "bullet_shot.h"
 
 typedef struct {
@@ -46,7 +46,7 @@ extern Player characters[4];
 void Load_PlayerSprites   ();
 void Load_Players         ();
 void InitPlayer           (int playerType);
-void UpdatePlayer         ();
+void UpdatePlayer         (GameContext *ctx);
 void DrawPlayer           ();
 void UpdateAnimationPlayer();
 

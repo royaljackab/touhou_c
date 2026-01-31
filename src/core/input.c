@@ -5,7 +5,6 @@
 #define UPDATE_KEY(key) input_update_key(&input->key, cfg->key)
 
 /* Static functions */
-
 static void input_update_key(KeyState *keyState, KeyboardKey key) {
   keyState->isDown = IsKeyDown(key);
   keyState->isPressed = IsKeyPressed(key);
@@ -25,6 +24,9 @@ void input_initialize(InputState *input) {
   input->keybinds.shoot = KEY_Z;
   input->keybinds.focus = KEY_LEFT_SHIFT;
   input->keybinds.skip = KEY_LEFT_CONTROL;
+
+  input->keybinds.pause = KEY_P;
+  input->keybinds.validate = KEY_SPACE;
 }
 
 void input_update(InputState *input) {
@@ -43,6 +45,8 @@ void input_update(InputState *input) {
   UPDATE_KEY(focus);
   UPDATE_KEY(bomb);
   UPDATE_KEY(skip);
+  UPDATE_KEY(pause);
+  UPDATE_KEY(validate);
 }
 
 int isPressed(KeyState key) { return key.isPressed; }

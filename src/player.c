@@ -1,4 +1,6 @@
 #include "../lib/player.h"
+#include "../lib/input.h"
+#include "../lib/game_state.h"
 
 Player player;
 
@@ -39,25 +41,25 @@ void Load_Players() {
 
 void InitPlayer(int playerType) { player = characters[playerType]; }
 
-void UpdatePlayer() {
+void UpdatePlayer(GameContext *ctx) {
 
   // Vitesse + hitbox (focus mode)
   float speed = player.speed;
-  if (IsKeyPressed(globals.inputConfig.focus)) {
+  if (isPressed(ctx->input.focus)) {
     playerSprites[HITBOX].color.a = 0;
   }
-  if (globals.inputState.is_focus) {
+  if (isDown(ctx->input.focus)) {
     speed = player.focusSpeed;
     playerSprites[HITBOX].color.a =
         Clamp(playerSprites[HITBOX].color.a + 40, 0, 255);
   }
-  if (globals.inputState.is_focus) {
+  if (isReleased(ctx->input.focus)) {
     playerSprites[HITBOX].color.a =
         Clamp(playerSprites[HITBOX].color.a - 40, 0, 255);
   }
 
   // Tirs
-  if (globals.inputState.is_shoot) {
+  if (isDown(ctx->input.shoot)) {
     if (shotTimer == 0) {
       CreateShotType(OBJ_PLAYER_SHOT, player.pos.x - 7, player.pos.y - 20, 50,
                      270, REIMU_PINK_AMULET, 0);
@@ -70,13 +72,13 @@ void UpdatePlayer() {
   Vector2 move = {0, 0};
 
   // Déplacements
-  if (IsKeyDown(globals.inputState.is_move_left))
+  if (isDown(ctx->input.left))
     move = Vector2Add(move, (Vector2){-1, 0});
-  if (IsKeyDown(globals.inputState.is_move_up))
+  if (isDown(ctx->input.up))
     move = Vector2Add(move, (Vector2){0, -1});
-  if (IsKeyDown(globals.inputState.is_move_right))
+  if (isDown(ctx->input.right))
     move = Vector2Add(move, (Vector2){1, 0});
-  if (IsKeyDown(globals.inputState.is_move_down))
+  if (isDown(ctx->input.down))
     move = Vector2Add(move, (Vector2){0, 1});
 
   // Anim

@@ -1,70 +1,92 @@
-#include "../lib/input.h"
-#include "../lib/menu.h"
+#include "../lib/game_state.h"
 #include "../lib/settings.h"
-#include "../lib/test_task.h"
-#include "../lib/title_screen.h"
 #include <stddef.h>
 #include <stdio.h>
-
-varGlobals globals;
 
 int main() {
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Night of nights");
   SetTargetFPS(60);
 
-  Load_BulletSprites();
-  Load_PlayerSprites();
-  Load_Players();
-  InitPlayer(REIMU_A);
-  AssetsLoad();
-  initialize();
+  GameContext ctx;
+  ctx.currentStateID = STATE_MENU_TITLE;
+  ctx.currentState = get_state_pointer(ctx.currentStateID);
+  ctx.pause = 0;
+  input_initialize(&ctx.input);
+  load_settings(&ctx);
 
-  init_menu();
-  input_initialize(&globals.inputState);
+  // Load_BulletSprites();
+  // Load_PlayerSprites();
+  // Load_Players();
+  // InitPlayer(REIMU_A);
+  // AssetsLoad();
+  // initialize();
 
-  load_settings();
-
-  globals.gameState = TITLE_SCREEN;
-  globals.pause = 0;
+  
+  
 
   void *moonlightState = NULL;
 
+  ctx.currentState->init(&ctx);
+
   while (!WindowShouldClose()) {
-    switch (globals.gameState) {
-    case TITLE_SCREEN:
-      menu();
-      break;
-    case MOONLIGHT:
+    input_update(&ctx.input);
+    gamestate_process_state_change(&ctx);
 
-      if (!globals.pause) {
-        UpdateObjects();
-        moonlight_task(&moonlightState);
-        UpdatePlayer();
-        UpdateAnimations();
-        UpdateAnimationPlayer();
-        UpdateCollisions();
-        input_update(&globals.inputState);
-      }
-
-      BeginDrawing();
-      ClearBackground(BLACK);
-      DrawRectangleLines(PANEL_LEFT, PANEL_UP, PANEL_WIDTH, PANEL_HEIGHT,
-                         WHITE);
-
-      DrawObjects();
-      DrawPlayer();
-      EndDrawing();
-      break;
-    default:
-      break;
+    if (ctx.currentStateID > __END_MENU__) {
+      pauseListener(&ctx);
     }
-    if (globals.gameState != TITLE_SCREEN) {
-      pauseGame();
-    }
-    if (globals.pause) {
+    if (ctx.pause) {
       pauseMenu();
     }
+
+    if (ctx.currentState != NULL) {
+      ctx.currentState->update(&ctx);
+      BeginDrawing();
+      ctx.currentState->draw(&ctx);
+      EndDrawing();
+    }
   }
+
   AssetsUnload();
   CloseWindow();
 }
+
+//   while (!WindowShouldClose()) {
+//     input_update(&globals.inputState);
+//     switch (globals.gameState) {
+//     case TITLE_SCREEN:
+//       menu();
+//       break;
+//     case MOONLIGHT:
+
+//       if (!globals.pause) {
+//         UpdateObjects();
+//         moonlight_task(&moonlightState);
+//         UpdatePlayer();
+//         UpdateAnimations();
+//         UpdateAnimationPlayer();
+//         UpdateCollisions();
+//       }
+
+//       BeginDrawing();
+//       ClearBackground(BLACK);
+//       DrawRectangleLines(PANEL_LEFT, PANEL_UP, PANEL_WIDTH, PANEL_HEIGHT,
+//                          WHITE);
+
+//       DrawObjects();
+//       DrawPlayer();
+//       EndDrawing();
+//       break;
+//     default:
+//       break;
+//     }
+//     if (globals.gameState != TITLE_SCREEN) {
+//       pauseGame();
+//     }
+//     if (globals.pause) {
+//       pauseMenu();
+//     }
+//   }
+//   AssetsUnload();
+//   CloseWindow();
+// }

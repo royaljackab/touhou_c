@@ -1,17 +1,23 @@
 #include "../../lib/game_state.h"
 #include <stddef.h>
+#include "../../lib/input.h"
+#include "../../lib/title_screen.h"
+#include <stdio.h>
 
-static GameState *get_state_pointer(StateID state) {
+
+GameState *get_state_pointer(StateID state) {
   /***
    * @return: pointeur vers l'état désigné par state
    */
 
   // NOTE: Nouvel état = Nouveau case ici !
   switch (state) {
-  case STATE_MENU:
-    //return &state_menu;
+  case STATE_MENU_TITLE:
+    return &state_menu_title;
+  case STATE_MENU_KEYBINDS:
+    return &state_menu_keybinds;
   case STATE_TEST:
-    //return &state_test;
+    // return &state_test;
   default:
     return 0;
   }
@@ -28,12 +34,13 @@ void gamestate_process_state_change(GameContext *ctx) {
   }
 
   // On nettoie l'état précédent
-  if (ctx->currentState != NULL) {
+  if (ctx->currentState->cleanup != NULL) {
     ctx->currentState->cleanup(ctx);
   }
   // Changer l'ID et pointeur
   ctx->currentStateID = ctx->nextStateID;
   ctx->currentState = get_state_pointer(ctx->currentStateID);
+  printf("Switched to state %d\n", ctx->currentStateID);
 
   // Initialiser le nouvel etat
   if (ctx->currentState != NULL) {
@@ -42,4 +49,15 @@ void gamestate_process_state_change(GameContext *ctx) {
 
   // Reset trigger
   ctx->nextStateID = STATE_NONE;
+}
+
+void pauseListener(GameContext *ctx){
+    if(isPressed(ctx->input.pause)){
+        ctx->pause = !ctx->pause;
+    }
+}
+
+void pauseMenu(){
+    DrawText("PAUSE", 100, 300, 50, RED);
+    DrawRectangleLines(50, 50, PANEL_WIDTH - 100, PANEL_HEIGHT - 100, WHITE);
 }

@@ -1,13 +1,6 @@
 #pragma once
 
 #include <raylib.h>
-
-/* Macros */
-// NOTE: Pas très joli d'avoir ce genre de truc ici...
-#define IS_PRESSED(key) isPressed(ctx.input.key)
-#define IS_RELEASED(key) isReleased(ctx.input.key)
-#define IS_DOWN(key) isDown(ctx.input.key)
-
 // Configuration des keybinds, modifiable dans les settings
 typedef struct InputConfig {
   // NOTE: gardez les memes noms de key pour config et State !
@@ -16,6 +9,8 @@ typedef struct InputConfig {
   KeyboardKey bomb;
   KeyboardKey focus;
   KeyboardKey skip;
+  KeyboardKey pause;
+  KeyboardKey validate;
 } InputConfig;
 
 // Etat d'une touche/action (pour remplacer IsKeyDown(...))
@@ -35,6 +30,8 @@ typedef struct InputState {
   KeyState bomb;
   KeyState focus;
   KeyState skip;
+  KeyState pause;
+  KeyState validate;
 } InputState;
 
 /* Fonctions */

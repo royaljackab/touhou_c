@@ -1,11 +1,19 @@
 #pragma once
 
 #include "input.h"
+#include "button.h"
+
 typedef enum StateID {
   STATE_NONE,
-  STATE_MENU,
-  STATE_PAUSE,
-  STATE_SETTINGS,
+
+  __BEGIN_MENU__,
+
+  STATE_MENU_TITLE,
+  STATE_MENU_SETTINGS,
+  STATE_MENU_KEYBINDS,
+
+  __END_MENU__,
+
   STATE_TEST,
   STATE_EXTRA
 } StateID;
@@ -26,7 +34,17 @@ struct GameContext {
 
   InputState input;
 
+  ButtonSystem button;
+
   int debug;
+  int pause;
 };
 
-extern void gamestate_process_state_change(GameContext *ctx);
+void gamestate_process_state_change             (GameContext *ctx);
+void pauseListener                              (GameContext *ctx);
+void pauseMenu                                  ();
+GameState *get_state_pointer                    (StateID state);
+
+extern GameState state_menu_title;
+extern GameState state_menu_keybinds;
+extern GameState state_test;

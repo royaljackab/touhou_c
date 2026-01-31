@@ -1,9 +1,6 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#pragma once
+#include "game_state.h"
 
-
-void load_settings      ();
-void init_settings      ();
-void saveSettings       ();
-
-#endif
+void load_settings      (GameContext *ctx);
+void init_settings      (GameContext *ctx);
+void saveSettings       (GameContext *ctx);
