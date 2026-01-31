@@ -2,3 +2,10 @@
 *.exe
 include/*
 settings.txt
+build/
+bin/
+obj/
+CMakeFiles/
+CMakeCache.txt
+CMake_install.cmake 
+*.cmake
